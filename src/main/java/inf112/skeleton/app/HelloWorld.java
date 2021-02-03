@@ -11,6 +11,8 @@ public class HelloWorld implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
 
+    ///Ignore this comment///
+
     @Override
     public void create() {
         batch = new SpriteBatch();
