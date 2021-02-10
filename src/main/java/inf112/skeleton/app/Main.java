@@ -6,9 +6,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class Main {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        cfg.setTitle("hello-world");
+        cfg.setTitle("Robo Rally");
         cfg.setWindowedMode(1000, 1000);
 
-        new Lwjgl3Application(new HelloWorld(), cfg);
+        new Lwjgl3Application(new Game(), cfg);
     }
 }

@@ -1,14 +1,25 @@
 package inf112.skeleton.app;
 
+import com.badlogic.gdx.ApplicationListener;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Game {
+
+public class Game implements ApplicationListener {
 
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
     Cards cards = new Cards();
     Map<Player, List<Integer>> registers = new HashMap<>();
+    public Board gameBoard;
 
     public void DoTurn() {
         turn += 1;
@@ -32,6 +43,39 @@ public class Game {
             output += "Player " + (playerList.indexOf(p)+1) + ": " + p.cardsList.toString() + '\n';
         }
         return output;
+    }
+
+
+
+    // overrides from application listener
+    @Override
+    public void create() {
+        gameBoard = new Board();
+    }
+
+    @Override
+    public void dispose() {
+        gameBoard.Dispose();
+    }
+
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+
+        gameBoard.Render();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
     }
 
 }
