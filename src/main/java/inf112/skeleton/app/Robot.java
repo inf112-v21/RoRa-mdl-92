@@ -9,6 +9,7 @@ public class Robot {
     public int posX=0;
     public int posY=0;
 
+
     //trenger en variabel som forteller hvilken retning roboten står (0,1,2,3?)
 
     /*public void keyPressed(KeyEvent e)
