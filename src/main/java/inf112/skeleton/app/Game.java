@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,14 +22,12 @@ public class Game implements ApplicationListener {
     Map<Player, List<Integer>> registers = new HashMap<>();
     public Board gameBoard;
 
+
+
     public void DoTurn() {
         turn += 1;
         if (turn == 1) {
-            Player p1 = new Player();
-            Player p2 = new Player();
-            Player p3 = new Player();
-            Player p4 = new Player();
-            playerList.addAll(Arrays.asList(p1,p2,p3,p4));
+
         }
         for (Player p : playerList) {
             cards.DealCards(p);
@@ -42,6 +41,7 @@ public class Game implements ApplicationListener {
         for (Player p : playerList) {
             output += "Player " + (playerList.indexOf(p)+1) + ": " + p.cardsList.toString() + '\n';
         }
+
         return output;
     }
 
@@ -51,6 +51,13 @@ public class Game implements ApplicationListener {
     @Override
     public void create() {
         gameBoard = new Board();
+        Player p1 = new Player(gameBoard.robot);
+        Gdx.input.setInputProcessor(p1);
+        //Player p2 = new Player();
+        //Player p3 = new Player();
+        //Player p4 = new Player();
+        playerList.addAll(Arrays.asList(p1));
+
     }
 
     @Override
@@ -81,10 +88,11 @@ public class Game implements ApplicationListener {
 }
 
 //temp class Player
-class Player {
+class Player implements InputProcessor {
 
     public List<Integer> cardsList = new ArrayList<>();
     public int damage=0;
+    public Robot playerRobot;
 
     public List<Integer> ProgramRegisters() {
         List<Integer> registers = new ArrayList<>();
@@ -95,6 +103,66 @@ class Player {
         }
         return registers;
     }
+    public Player(Robot robot){
+        playerRobot = robot;
+    }
+
+    @Override
+    public boolean keyDown(int i) {
+        switch (i){
+            case 22:
+                playerRobot.posX++;
+                break;
+            case 21:
+                playerRobot.posX--;
+                break;
+            case 19:
+                playerRobot.posY++;
+                break;
+            case 20:
+                playerRobot.posY--;
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int i, int i1, int i2) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int i, int i1) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int i) {
+        return false;
+    }
+
+
 }
 
 //temp class Cards

@@ -13,7 +13,7 @@ public class Board {
     private BitmapFont font;
     private Texture boardImage;
     private Texture robot1Image;
-
+    public Robot robot;
 
     // private Player player;
     private boolean gameOver = false;
@@ -44,6 +44,7 @@ public class Board {
             }
         }
         */
+        robot = new Robot();
         boardImage = new Texture(Gdx.files.internal("src/assets/Board_01.png"));
         robot1Image = new Texture(Gdx.files.internal("src/assets/robot1.png"));
         batch = new SpriteBatch();
@@ -59,8 +60,7 @@ public class Board {
     public void Render(){
         batch.begin();
         batch.draw(boardImage,0,0);
-        batch.draw(robot1Image, 2*83, 4*83);
-        font.draw(batch, "Hello World", 200, 200);
+        batch.draw(robot1Image, robot.posX*83, robot.posY*83);
         batch.end();
     }
 
