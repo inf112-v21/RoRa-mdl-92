@@ -14,6 +14,7 @@ public class Board {
     private Texture boardImage;
     private Texture robot1Image;
     public Robot robot;
+    public static Flag[] allFlags;
 
     // private Player player;
     private boolean gameOver = false;
@@ -50,6 +51,14 @@ public class Board {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
+
+        allFlags = new Flag[3];
+        allFlags[0] = new Flag(1,2);
+        allFlags[0].texture = new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
+        allFlags[1] = new Flag(5,2);
+        allFlags[1].texture = new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
+        allFlags[2] = new Flag(7,6);
+        allFlags[2].texture = new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
     }
 
     public void Dispose(){
@@ -61,6 +70,9 @@ public class Board {
         batch.begin();
         batch.draw(boardImage,0,0);
         batch.draw(robot1Image, robot.posX*83, robot.posY*83);
+        batch.draw(allFlags[0].texture, allFlags[0].posX*83, allFlags[0].posY*83);
+        batch.draw(allFlags[1].texture, allFlags[1].posX*83, allFlags[1].posY*83);
+        batch.draw(allFlags[2].texture, allFlags[2].posX*83, allFlags[2].posY*83);
         batch.end();
     }
 

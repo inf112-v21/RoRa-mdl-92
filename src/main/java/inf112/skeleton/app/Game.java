@@ -144,6 +144,15 @@ class Player implements InputProcessor {
                 break;
         }
 
+        //checking if robot is on flag
+        for(int z = 0; z < Board.allFlags.length; z++){
+            if ((playerRobot.posX == Board.allFlags[z].posX) && (playerRobot.posY == Board.allFlags[z].posY)){
+                Board.allFlags[z].visitedP1 = true;
+            }
+        }
+        if (Board.allFlags[0].visitedP1 && Board.allFlags[1].visitedP1 && Board.allFlags[2].visitedP1){
+            System.out.println("Yay, You Won");
+        }
         return true;
     }
 
