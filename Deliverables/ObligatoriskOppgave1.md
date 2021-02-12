@@ -1,10 +1,14 @@
 DelOppgave 1:
 
   vi valgte gruppe navnet RoRa-mdl-92
+  
   vi fikk fort kartlogget hvilken kompetanse folkene på gruppen hadde og valgte derfor Ola som gruppeleder siden han var den eneste som hadde jobbet på
   noe gruppe prosjekt før
+  
   Thomas valgte seg frivilig til å ta seg av nettverks biten av coden.
+  
   og Pål valgte seg frivilig som kundekontakt fordi han er den med minst kode erfaring blant gruppen.
+  
   vi satte derretter opp et project board på github med noen ting vi måtte få gjort.
   
 
