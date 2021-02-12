@@ -19,20 +19,37 @@ public class Game implements ApplicationListener {
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
     Cards cards = new Cards();
-    Map<Player, List<Integer>> registers = new HashMap<>();
+    Map<Player, List<Integer>> playerRegisters = new HashMap<>();
     public Board gameBoard;
+    public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
 
 
 
     public void DoTurn() {
         turn += 1;
         if (turn == 1) {
-
+            Robot robot = new Robot();
+            Player p1 = new Player(robot);
+            Player p2 = new Player(robot);
+            Player p3 = new Player(robot);
+            Player p4 = new Player(robot);
+            playerList.addAll(Arrays.asList(p1,p2,p3,p4));
         }
         for (Player p : playerList) {
             cards.DealCards(p);
             int index = 0;
-            registers.put(p, p.ProgramRegisters());
+            playerRegisters.put(p, p.ProgramRegisters());
+        }
+        CompleteRegisters();
+    }
+
+    public void CompleteRegisters() {
+        for (int i=0; i<5; i++) {
+            Map<Player, Integer> playerRegister = new HashMap<>();
+            for (Player p : playerList) {
+                playerRegister.put(p, playerRegisters.get(p).get(i));
+            }
+            registerHistory.put(i+1, playerRegister);
         }
     }
 
@@ -96,13 +113,16 @@ class Player implements InputProcessor {
 
     public List<Integer> ProgramRegisters() {
         List<Integer> registers = new ArrayList<>();
+        int bound = 8;
         for (int i=0; i<5; i++) {
-            int randCard = ThreadLocalRandom.current().nextInt(0, 9);
+            int randCard = ThreadLocalRandom.current().nextInt(0, bound);
             registers.add(cardsList.get(randCard));
             cardsList.remove(randCard);
+            bound--;
         }
         return registers;
     }
+
     public Player(Robot robot){
         playerRobot = robot;
     }

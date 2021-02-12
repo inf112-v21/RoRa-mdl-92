@@ -18,12 +18,15 @@ public class GameTest {
         Game game = new Game();
         game.DoTurn();
         for (Player p : game.playerList) {
-            assertEquals(9, p.cardsList.size());
+            assertEquals(4, p.cardsList.size());
         }
     }
 
     @Test
     public void ShouldCompleteRegisters() {
-
+        Game game = new Game();
+        game.DoTurn();
+        assertEquals(5, game.registerHistory.size());
+        assertEquals(4, game.registerHistory.get(1).size());
     }
 }
