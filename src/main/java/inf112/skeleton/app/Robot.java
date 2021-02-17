@@ -9,36 +9,65 @@ public class Robot {
     public int posX=0;
     public int posY=0;
 
+    public Direction d = Direction.LEFT;
 
-    //trenger en variabel som forteller hvilken retning roboten står (0,1,2,3?)
-
-    /*public void keyPressed(KeyEvent e)
-    {
-
-        if (e.getKeyCode()==39)
-        {
-            //Right arrow key code
-            //her skal roboten rotere 90 grader mot høyre
+    public void moveForward(){
+        if(d == Direction.UP){
+            posY++;
         }
-
-        else if (e.getKeyCode()==37)
-        {
-            //Left arrow key code
-            //her skal roboten rotere 90 grader mot venstre
+        else if(d == Direction.LEFT){
+            posX--;
         }
-
-        else if (e.getKeyCode()==38)
-        {
-            //Up arrow key code
-            //her skal roboten bevege seg fremover den retningen den står
+        else if(d == Direction.RIGHT){
+            posX++;
         }
-
-        else if (e.getKeyCode()==40)
-        {
-            //down arrow key code
-            //her skal roboten bevege seg bakover i forhold til retning
+        else if(d == Direction.DOWN){
+            posY--;
         }
+    }
 
-    }*/
+    public void turnRight(){
+        if(d == Direction.UP){
+            d = Direction.RIGHT;
+        }
+        else if(d == Direction.LEFT){
+            d = Direction.UP;
+        }
+        else if(d == Direction.RIGHT){
+            d = Direction.DOWN;
+        }
+        else if(d == Direction.DOWN){
+            d = Direction.LEFT;
+        }
+    }
 
+    public void turnLeft(){
+        if(d == Direction.UP){
+            d = Direction.LEFT;
+        }
+        else if(d == Direction.LEFT){
+            d = Direction.DOWN;
+        }
+        else if(d == Direction.RIGHT){
+            d = Direction.UP;
+        }
+        else if(d == Direction.DOWN){
+            d = Direction.RIGHT;
+        }
+    }
+
+    public void moveBackwards(){
+        if(d == Direction.UP){
+            posY--;
+        }
+        else if(d == Direction.LEFT){
+            posX++;
+        }
+        else if(d == Direction.RIGHT){
+            posX--;
+        }
+        else if(d == Direction.DOWN){
+            posY++;
+        }
+    }
 }

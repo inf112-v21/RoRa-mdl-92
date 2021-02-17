@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /** Maybe we need an iterable for the board elements? **/
 public class Board {
@@ -69,7 +70,17 @@ public class Board {
     public void Render(){
         batch.begin();
         batch.draw(boardImage,0,0);
-        batch.draw(robot1Image, robot.posX*83, robot.posY*83);
+        int rotation = 0;
+        if(robot.d == Direction.RIGHT){
+            rotation = -90;
+        }
+        else if(robot.d == Direction.DOWN){
+            rotation = 180;
+        }
+        else if(robot.d == Direction.LEFT){
+            rotation = 90;
+        }
+        batch.draw( new TextureRegion(robot1Image), robot.posX*83, robot.posY*83,41,41,83,83,1,1,rotation);
         batch.draw(allFlags[0].texture, allFlags[0].posX*83, allFlags[0].posY*83);
         batch.draw(allFlags[1].texture, allFlags[1].posX*83, allFlags[1].posY*83);
         batch.draw(allFlags[2].texture, allFlags[2].posX*83, allFlags[2].posY*83);

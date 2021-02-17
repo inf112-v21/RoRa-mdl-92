@@ -24,17 +24,8 @@ public class Game implements ApplicationListener {
     public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
 
 
-
     public void DoTurn() {
         turn += 1;
-        if (turn == 1) {
-            Robot robot = new Robot();
-            Player p1 = new Player(robot);
-            Player p2 = new Player(robot);
-            Player p3 = new Player(robot);
-            Player p4 = new Player(robot);
-            playerList.addAll(Arrays.asList(p1,p2,p3,p4));
-        }
         for (Player p : playerList) {
             cards.DealCards(p);
             int index = 0;
@@ -131,16 +122,16 @@ class Player implements InputProcessor {
     public boolean keyDown(int i) {
         switch (i){
             case 22:
-                playerRobot.posX++;
+                playerRobot.turnRight();
                 break;
             case 21:
-                playerRobot.posX--;
+                playerRobot.turnLeft();
                 break;
             case 19:
-                playerRobot.posY++;
+                playerRobot.moveForward();
                 break;
             case 20:
-                playerRobot.posY--;
+                playerRobot.moveBackwards();
                 break;
         }
 
