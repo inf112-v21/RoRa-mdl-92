@@ -38,3 +38,11 @@ Members Present: Herman Fleisher, Ola M. Johannessen, Pål A H Bentsen, Sassan Z
 1. Coordinated on getting the robot to move.
 2. Got the robot to win by visiting the flags.
 3. Herman found and started with Tilemaps.
+
+
+17/02/2021
+Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland.
+
+Sassan has been reallocated to another group.
+Ola Meling Johannessen will take over Sassan's responsibilities.
+Agreed to meetup 20/02/2021 12:00 to go through retrospective and prepare for next sprint.
