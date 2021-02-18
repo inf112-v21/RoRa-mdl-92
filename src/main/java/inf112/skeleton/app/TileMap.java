@@ -21,6 +21,8 @@ public class TileMap extends ApplicationAdapter{
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
+    Texture texture;
+    Sprite sprite;
 
     @Override
     public void create() {
@@ -34,6 +36,7 @@ public class TileMap extends ApplicationAdapter{
         tiledMap = new TmxMapLoader().load(String.valueOf(Gdx.files.internal("src/assets/Tilemap/untitled.tmx")));
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
+        sb = new SpriteBatch();
     }
 
     @Override
