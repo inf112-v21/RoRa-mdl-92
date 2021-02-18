@@ -15,6 +15,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 
+/**
+ * This class loads a TiledMap(tmx file) and renders it in a window on screen when initiated
+ * In the future this class is maybe only used to handle a TiledMap (not render it etc.)
+ */
 public class TileMap extends ApplicationAdapter{
     Texture img;
     TiledMap tiledMap;

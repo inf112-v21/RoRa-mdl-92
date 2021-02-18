@@ -9,7 +9,9 @@ public class Main {
         cfg.setTitle("Robo Rally");
         cfg.setWindowedMode(1000, 1000);
 
-        //new Lwjgl3Application(new Game(), cfg);
-        new Lwjgl3Application(new TileMap(), cfg);
+        new Lwjgl3Application(new Game(), cfg);
+
+        //For TiledMap testing
+        //new Lwjgl3Application(new TileMap(), cfg);
     }
 }
