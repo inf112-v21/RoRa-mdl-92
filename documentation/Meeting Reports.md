@@ -41,8 +41,62 @@ Members Present: Herman Fleisher, Ola M. Johannessen, Pål A H Bentsen, Sassan Z
 
 
 17/02/2021
-Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland.
+Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland, Ola Meling Johannessen.
 
 Sassan has been reallocated to another group.
 Ola Meling Johannessen will take over Sassan's responsibilities.
 Agreed to meetup 20/02/2021 12:00 to go through retrospective and prepare for next sprint.
+
+
+20/02/2021 Time (12:20 - 13:20)
+Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland, Ola Meling Johannessen.
+
+Communicated and did a retrospective. (See file Retrospective 20022021)
+
+Made the following User Histories:
+
+ARD - As the rules demand.
+
+brukerhistorier 2:
+1. jeg som spiller vil kunne gi kort til roboten for å bevege den ARD.
+ - implementer kort klassen
+ - implementer forskjellige kort
+2. jeg som robot vil kunne utføre kommandoer basert på programkort ARD.
+ - roboten skal kunne lagre kommando kort
+ - roboten skal kunne utføre et kort når den er bedt om det
+3. jeg som spiller vil kunne spille med andre spillere over nettet
+4. jeg som spiller vil kunne kommandere roboten til å reparere seg ARD.
+ - det må være en knapp eller keyboard tast som vil få roboten til å reparere seg
+5. jeg som robot vil kunne reparere seg selv ARD.
+ - roboten må ha en funksjon som healer den selv
+6. jeg som robot vil kunne skru av for en runde ARD.
+ - hvis roboten ikke blir tildelt noen kort, er den skrudd av.
+7. jeg som robot vil kunne ta skade ARD.
+8. jeg som robot vil kunne låse program kort på plass ARD.
+9. jeg som robot vil kunne bli ødelagt ARD.
+10. jeg som robot vil kunne plasseres tilbake på brettet ARD.
+11. jeg som robot vil kunne lagre et ‘respawn point’ ARD.
+
+Board Elements
+12. jeg som belte vil kunne flytte på roboter som står på meg ARD.
+13. jeg som tannhjul vil kunne rotere på roboter som står på meg ARD.
+14. jeg som pusher vil kunne skyve roboter som står ved meg ARD.
+15. jeg som laser vil kunne skyte roboter ARD.
+
+Spill
+16. jeg som spill vil kunne avgjøre hvilken rekkefølge roboter gjør ting ARD.
+17. jeg som spill vil kunne be roboter og utføre kommandoer ARD.
+18. jeg som spill vil kunne be belter å operere ARD.
+19. jeg som spill vil kunne be tannhjul å operere ARD.
+20. jeg som spill vil kunne be pushere å operere ARD.
+21. jeg som spill vil kunne be lasere å skyte ARD.
+
+Detemined Workflow for the coming sprint.
+1. See what User Histories are being worked on or finished in the project board.
+2. Pick an available User History, and add it to the project board as in progress.
+3. Work on said project.
+4. Mark as finished when done.
+5. Return to step 1.
+
+Sidenote on step 3: Use project board to announce which files are in use to prevent Git issues.
+If possible, try to work with others.
