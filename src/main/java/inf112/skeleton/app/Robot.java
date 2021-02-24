@@ -9,7 +9,20 @@ public class Robot {
     public int posX=0;
     public int posY=0;
 
+    private Card[] Program = new Card[5];
+    public boolean isPowered = true;
+
     public Direction d = Direction.LEFT;
+
+    //returns the Card in a given slot
+    public Card GetCard(int i){
+        return Program[i];
+    }
+
+    //executes the action in a given program slot
+    public void DoAction(int i){
+        Program[i].DoAction(this);
+    }
 
     public void moveForward(){
         if(d == Direction.UP){

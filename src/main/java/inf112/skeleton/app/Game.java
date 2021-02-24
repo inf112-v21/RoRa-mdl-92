@@ -46,13 +46,11 @@ public class Game implements ApplicationListener {
     // This function takes a list of robots and a phase, and executes robots action for that phase in descending order or priority
     private void HandleProgram(List<Robot> allRobots, int _currentPhase){
         Collections.sort(allRobots, (d1, d2) -> {
-                    //return d1.getCard(_currentPhase).priority - d2.getCard(_currentPhase).priority; //Dependent on the card from the Robot.
-                    return 1;                                                                         //substitute for line above
+                    return d1.GetCard(_currentPhase).priority - d2.GetCard(_currentPhase).priority;
                 });
         for(int i = 0; i < allRobots.size(); i++){
-            //if((allRobots[i].isPowered())){       //dependant on knowing whether the robot is powered.
-            if(true){                               //substitute for line above.
-                //allRobots.get(_currentPhase).doAction(_currentPhase); //dependant on function from Robot
+            if((allRobots.get(i).isPowered)){       //dependant on knowing whether the robot is powered.
+                allRobots.get(_currentPhase).DoAction(_currentPhase); //dependant on function from Robot
             }
         }
     }
