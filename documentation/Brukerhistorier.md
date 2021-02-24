@@ -1,4 +1,5 @@
 #Brukerhistorier:
+
 ***Jeg som spiller vil kunne se brettet, for å kunne orientere meg for hvor ting er***
 
 ***Få et bilde av brettet til å vise i et vindu på skjermen***
