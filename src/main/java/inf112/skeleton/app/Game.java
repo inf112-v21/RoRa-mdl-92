@@ -19,28 +19,41 @@ public class Game implements ApplicationListener {
 
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
-    Cards cards = new Cards();
+    public List<Card> cards = new ArrayList<Card>();
+    public List <Card> discard = new ArrayList<Card>();
     Map<Player, List<Integer>> playerRegisters = new HashMap<>();
     public Board gameBoard;
     public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
+    public Random rand = new Random();
 
 
     public void DoTurn() {
         turn += 1;
 
-        //Sassan's non-comment code
-        for (Player p : playerList) {
-            cards.DealCards(p);
-            int index = 0;
-            playerRegisters.put(p, p.ProgramRegisters());
+        //Deal Cards to players.
+        for(Player p: playerList){
+            Player.takeCards(this);
         }
-        CompleteRegisters();
+
+        //Each game round consists of 5 cycles of actions, one for each programmed program card.
         for(int phase = 0; phase < 5; phase++) {
 
             //HandleProgram(Board.getRobots(), phase);    //dependant on getting robots from Board.
             HandleProgram(new ArrayList<Robot>(), phase); //Substitute for lone above.
 
         }
+    }
+
+    public Card DealCard(){
+        if(cards.size() == 0){
+            List<Card> temp = cards;
+            cards = discard;
+            discard = temp;
+        }
+        Card out;
+        int i = rand.nextInt(cards.size()-1);
+        out = cards.get(i);
+        cards.remove(i);
     }
 
     // This function takes a list of robots and a phase, and executes robots action for that phase in descending order or priority
@@ -112,108 +125,6 @@ public class Game implements ApplicationListener {
 
     @Override
     public void resume() {
-    }
-
-}
-
-//temp class Player
-class Player implements InputProcessor {
-
-    public List<Integer> cardsList = new ArrayList<>();
-    public int damage=0;
-    public Robot playerRobot;
-
-    public List<Integer> ProgramRegisters() {
-        List<Integer> registers = new ArrayList<>();
-        int bound = 8;
-        for (int i=0; i<5; i++) {
-            int randCard = ThreadLocalRandom.current().nextInt(0, bound);
-            registers.add(cardsList.get(randCard));
-            cardsList.remove(randCard);
-            bound--;
-        }
-        return registers;
-    }
-
-    public Player(Robot robot){
-        playerRobot = robot;
-    }
-
-    @Override
-    public boolean keyDown(int i) {
-        switch (i){
-            case 22:
-                playerRobot.turnRight();
-                break;
-            case 21:
-                playerRobot.turnLeft();
-                break;
-            case 19:
-                playerRobot.moveForward();
-                break;
-            case 20:
-                playerRobot.moveBackwards();
-                break;
-        }
-
-        //checking if robot is on flag, this shouldn't be here
-        for(int z = 0; z < Board.allFlags.length; z++){
-            if ((playerRobot.posX == Board.allFlags[z].posX) && (playerRobot.posY == Board.allFlags[z].posY)){
-                Board.allFlags[z].visitedP1 = true;
-            }
-        }
-        if (Board.allFlags[0].visitedP1 && Board.allFlags[1].visitedP1 && Board.allFlags[2].visitedP1){
-            System.out.println("Yay, You Won");
-        }
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char c) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int i) {
-        return false;
-    }
-
-
-}
-
-//temp class Cards
-class Cards {
-
-    public void DealCards(Player player) {
-        for (int i = 0; i < 9- player.damage; i++) {
-            int randCard = ThreadLocalRandom.current().nextInt(1, 6);
-            player.cardsList.add(randCard);
-        }
     }
 
 }
