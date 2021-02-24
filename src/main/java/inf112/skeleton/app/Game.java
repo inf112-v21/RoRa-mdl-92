@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.sun.source.tree.BinaryTree;
 
 
 public class Game implements ApplicationListener {
@@ -26,12 +27,34 @@ public class Game implements ApplicationListener {
 
     public void DoTurn() {
         turn += 1;
+
+        //Sassan's non-comment code
         for (Player p : playerList) {
             cards.DealCards(p);
             int index = 0;
             playerRegisters.put(p, p.ProgramRegisters());
         }
         CompleteRegisters();
+        for(int phase = 0; phase < 5; phase++) {
+
+            //HandleProgram(Board.getRobots(), phase);    //dependant on getting robots from Board.
+            HandleProgram(new ArrayList<Robot>(), phase); //Substitute for lone above.
+
+        }
+    }
+
+    // This function takes a list of robots and a phase, and executes robots action for that phase in descending order or priority
+    private void HandleProgram(List<Robot> allRobots, int _currentPhase){
+        Collections.sort(allRobots, (d1, d2) -> {
+                    //return d1.getCard(_currentPhase).priority - d2.getCard(_currentPhase).priority; //Dependent on the card from the Robot.
+                    return 1;                                                                         //substitute for line above
+                });
+        for(int i = 0; i < allRobots.size(); i++){
+            //if((allRobots[i].isPowered())){       //dependant on knowing whether the robot is powered.
+            if(true){                               //substitute for line above.
+                //allRobots.get(_currentPhase).doAction(_currentPhase); //dependant on function from Robot
+            }
+        }
     }
 
     public void CompleteRegisters() {
@@ -135,7 +158,7 @@ class Player implements InputProcessor {
                 break;
         }
 
-        //checking if robot is on flag
+        //checking if robot is on flag, this shouldn't be here
         for(int z = 0; z < Board.allFlags.length; z++){
             if ((playerRobot.posX == Board.allFlags[z].posX) && (playerRobot.posY == Board.allFlags[z].posY)){
                 Board.allFlags[z].visitedP1 = true;
