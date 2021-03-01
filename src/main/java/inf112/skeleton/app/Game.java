@@ -10,7 +10,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sun.source.tree.BinaryTree;
 
@@ -19,41 +21,27 @@ public class Game implements ApplicationListener {
 
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
-    public List<Card> cards = new ArrayList<Card>();
-    public List <Card> discard = new ArrayList<Card>();
+    Cards cards = new Cards(new Sprite(new Texture("src/assets/move1.png")));
     Map<Player, List<Integer>> playerRegisters = new HashMap<>();
     public Board gameBoard;
     public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
-    public Random rand = new Random();
 
 
     public void DoTurn() {
         turn += 1;
 
-        //Deal Cards to players.
-        for(Player p: playerList){
-            Player.takeCards(this);
+        //Sassan's non-comment code
+        for (Player p : playerList) {
+            int index = 0;
+            playerRegisters.put(p, p.ProgramRegisters());
         }
-
-        //Each game round consists of 5 cycles of actions, one for each programmed program card.
+        CompleteRegisters();
         for(int phase = 0; phase < 5; phase++) {
 
             //HandleProgram(Board.getRobots(), phase);    //dependant on getting robots from Board.
             HandleProgram(new ArrayList<Robot>(), phase); //Substitute for lone above.
 
         }
-    }
-
-    public Card DealCard(){
-        if(cards.size() == 0){
-            List<Card> temp = cards;
-            cards = discard;
-            discard = temp;
-        }
-        Card out;
-        int i = rand.nextInt(cards.size()-1);
-        out = cards.get(i);
-        cards.remove(i);
     }
 
     // This function takes a list of robots and a phase, and executes robots action for that phase in descending order or priority
