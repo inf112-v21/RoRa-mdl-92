@@ -1,9 +1,14 @@
 package inf112.skeleton.app;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public class Robot {
     public int initialHealth=100;
     public boolean initialDeathStatus=false;
-
+    public Sprite sprite;
     public int initialCheckpoint=0;
 
     public int posX=0;
@@ -13,6 +18,24 @@ public class Robot {
     public boolean isPowered = true;
 
     public Direction d = Direction.LEFT;
+
+    public Robot(){
+        sprite = new Sprite(new Texture("src/assets/robot1.png"));
+    }
+
+    public void draw(SpriteBatch s){
+        int rotation = 0;
+        if(d == Direction.RIGHT){
+            rotation = -90;
+        }
+        else if(d == Direction.DOWN){
+            rotation = 180;
+        }
+        else if(d == Direction.LEFT){
+            rotation = 90;
+        }
+        s.draw(new TextureRegion(sprite.getTexture()),83*posX,83*posY,41,41,83,83,1,1,rotation);
+    }
 
     //returns the Card in a given slot
     public Card GetCard(int i){

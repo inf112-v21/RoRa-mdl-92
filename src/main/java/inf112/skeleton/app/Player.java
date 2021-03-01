@@ -1,16 +1,27 @@
 package inf112.skeleton.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-class Player implements InputProcessor {
-
+class Player {
     public List<Integer> cardsList = new ArrayList<>();
     public int damage=0;
+    public ArrayList<Card> hand = new ArrayList<Card>();
     public Robot playerRobot;
+    private playerInputs cardInputs;
+    private ShapeRenderer shapeRenderer;
+    private BitmapFont font;
+
+
 
     public List<Integer> ProgramRegisters() {
         List<Integer> registers = new ArrayList<>();
@@ -24,72 +35,85 @@ class Player implements InputProcessor {
         return registers;
     }
 
-    public Player(Robot robot){
-        playerRobot = robot;
+    public void playCard(){
+        hand.get(cardInputs.inputs.get(0)).DoAction(playerRobot);
+        cardInputs.inputs.remove(0);
     }
 
-    @Override
-    public boolean keyDown(int i) {
-        switch (i){
-            case 22:
-                playerRobot.turnRight();
-                break;
-            case 21:
-                playerRobot.turnLeft();
-                break;
-            case 19:
-                playerRobot.moveForward();
-                break;
-            case 20:
-                playerRobot.moveBackwards();
-                break;
-        }
+    public boolean canPlayCard(){
+        return cardInputs.inputs.size() != 0;
+    }
 
-        //checking if robot is on flag, this shouldn't be here
-        for(int z = 0; z < Board.allFlags.length; z++){
-            if ((playerRobot.posX == Board.allFlags[z].posX) && (playerRobot.posY == Board.allFlags[z].posY)){
-                Board.allFlags[z].visitedP1 = true;
+    public Player(Robot robot){
+        font = new BitmapFont();
+        cardInputs = new playerInputs();
+        playerRobot = robot;
+        shapeRenderer = new ShapeRenderer();
+    }
+
+    public void drawHand(SpriteBatch s){
+        int yPos = 0;
+        int xPos = 1000;
+        s.end();
+        font.setColor(Color.WHITE);
+        font.getData().setScale(1);
+        for(Card c : hand){
+            s.begin();
+            c.draw(s,xPos,yPos);
+            font.draw(s,Integer.toString(c.priority),xPos+45,yPos+125);
+            s.end();
+            if (Gdx.input.getX() > xPos  && Gdx.input.getX() < xPos+100 &&
+                    1000-  Gdx.input.getY() < yPos + 140 &&
+                    1000-  Gdx.input.getY() > yPos) {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.rect(xPos, yPos, 100, 140, Color.GOLD, Color.GOLD, Color.GOLD, Color.GOLD);
+                shapeRenderer.end();
+            }
+            yPos += 140;
+            if(yPos > 900){
+                xPos += 100;
+                yPos = 0;
             }
         }
-        if (Board.allFlags[0].visitedP1 && Board.allFlags[1].visitedP1 && Board.allFlags[2].visitedP1){
-            System.out.println("Yay, You Won");
+        s.begin();
+        font.setColor(Color.GREEN);
+        font.getData().setScale(2);
+        for(int i = 0;  i < cardInputs.inputs.size(); i++){
+            int x = 1010;
+            int c = cardInputs.inputs.get(i);
+            if(c > 6){
+                x += 100;
+            }
+
+            int y = (cardInputs.inputs.get(i)%7*140 + 120);
+            font.draw(s,Integer.toString(i+1),x,y);
+
+        }
+    }
+
+
+
+
+    public boolean touchUp() {
+        if(Gdx.input.getX() > 1000  && Gdx.input.getX() < 1200 && Gdx.input.getY() > 20){
+            int selectedCard = 0;
+            if(Gdx.input.getX() > 1100){
+                selectedCard = 7;
+            }
+            selectedCard += MathUtils.floor((1000 -  Gdx.input.getY())/140);
+            if(selectedCard < hand.size()){
+                //hand.get(selectedCard).DoAction(playerRobot);
+                if(cardInputs.inputs.contains(selectedCard)){
+                    cardInputs.inputs.remove(cardInputs.inputs.indexOf(selectedCard));
+                }else{
+                    if(cardInputs.inputs.size() >= 5-damage){
+                        cardInputs.inputs.remove(cardInputs.inputs.size()-1);
+                    }
+                    cardInputs.inputs.add(selectedCard);
+                }
+            }
         }
         return true;
-    }
-
-    @Override
-    public boolean keyUp(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char c) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int i) {
-        return false;
     }
 
 
