@@ -28,6 +28,7 @@ public class Game implements ApplicationListener {
     public int currentUser = 0; // the player that the applications user controls
     public boolean isOnline = false;
     public NetworkComponent networkComponent = null;
+    public Flag flag = null;
 
 
     public void DoTurn() {
@@ -51,11 +52,18 @@ public class Game implements ApplicationListener {
         }
 
 
+
         //Deal Cards to players.
         for(Player p: playerList){
             //Player.takeCards(this);
             while(p.canPlayCard()){
                 p.playCard();
+            }
+        }
+        //checks if a robot is on the flag
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).playerRobot.posY == flag.posY && playerList.get(i).playerRobot.posX == flag.posX){
+                System.out.println("Player " +String.valueOf(i+1) + " WINS!");
             }
         }
 
@@ -125,13 +133,17 @@ public class Game implements ApplicationListener {
         if(isOnline){
             System.out.println("press 1 for host, 2 for client");
             if(scanner.nextInt() == 1){
-                networkComponent = new Host(8001);
+                System.out.println("enter Port");
+                scanner.nextLine();
+                networkComponent = new Host(scanner.nextInt());
             }
             else {
                 System.out.println("enter host IP");
                 scanner.nextLine();
                 String ip = scanner.nextLine();
-                networkComponent = new Client(ip,8001);
+                System.out.println("enter host Port");
+                scanner.nextLine();
+                networkComponent = new Client(ip,scanner.nextInt());
                 Client c = (Client)networkComponent;
                 currentUser = c.getPlayerNr();
             }
@@ -139,8 +151,10 @@ public class Game implements ApplicationListener {
         batch = new SpriteBatch();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
+        flag = new Flag(5,5);
+        flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
         playerList.add(new Player(new Robot(0,0)));
-        playerList.add(new Player(new Robot(5,5)));
+        playerList.add(new Player(new Robot(11,11)));
         // add dummy cards to players hand
         for(Player p : playerList){
             p.hand.add(new Move1Card());
@@ -175,6 +189,7 @@ public class Game implements ApplicationListener {
         for(Player p :playerList){
             p.playerRobot.draw(batch);
         }
+        batch.draw(flag.texture,flag.posX*83,flag.posY*83);
         batch.end();
     }
 
