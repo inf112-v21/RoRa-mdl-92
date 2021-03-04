@@ -51,8 +51,6 @@ public class Game implements ApplicationListener {
             }
         }
 
-
-
         //Deal Cards to players.
         for(Player p: playerList){
             //Player.takeCards(this);
@@ -65,14 +63,6 @@ public class Game implements ApplicationListener {
             if(playerList.get(i).playerRobot.posY == flag.posY && playerList.get(i).playerRobot.posX == flag.posX){
                 System.out.println("Player " +String.valueOf(i+1) + " WINS!");
             }
-        }
-
-        //Each game round consists of 5 cycles of actions, one for each programmed program card.
-        for(int phase = 0; phase < 5; phase++) {
-
-            //HandleProgram(Board.getRobots(), phase);    //dependant on getting robots from Board.
-            HandleProgram(new ArrayList<Robot>(), phase); //Substitute for lone above.
-
         }
     }
 
@@ -87,37 +77,6 @@ public class Game implements ApplicationListener {
         out = cards.get(i);
         cards.remove(i);
         return null;
-    }
-
-    // This function takes a list of robots and a phase, and executes robots action for that phase in descending order or priority
-    private void HandleProgram(List<Robot> allRobots, int _currentPhase){
-        Collections.sort(allRobots, (d1, d2) -> {
-                    return d1.GetCard(_currentPhase).priority - d2.GetCard(_currentPhase).priority;
-                });
-        for(int i = 0; i < allRobots.size(); i++){
-            if((allRobots.get(i).isPowered)){       //dependant on knowing whether the robot is powered.
-                allRobots.get(_currentPhase).DoAction(_currentPhase); //dependant on function from Robot
-            }
-        }
-    }
-
-    public void CompleteRegisters() {
-        for (int i=0; i<5; i++) {
-            Map<Player, Integer> playerRegister = new HashMap<>();
-            for (Player p : playerList) {
-                playerRegister.put(p, playerRegisters.get(p).get(i));
-            }
-            registerHistory.put(i+1, playerRegister);
-        }
-    }
-
-    public String ShowPlayers() {
-        String output = "";
-        for (Player p : playerList) {
-            output += "Player " + (playerList.indexOf(p)+1) + ": " + p.cardsList.toString() + '\n';
-        }
-
-        return output;
     }
 
 
