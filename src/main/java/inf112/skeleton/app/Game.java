@@ -53,7 +53,7 @@ public class Game implements ApplicationListener {
 
 
 
-        //Deal Cards to players.
+        //make the players play their selected cards
         for(Player p: playerList){
             //Player.takeCards(this);
             while(p.canPlayCard()){
