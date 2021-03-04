@@ -46,7 +46,7 @@ public class Board {
             }
         }
         */
-        robot = new Robot();
+        robot = new Robot(0,0);
         boardImage = new Texture(Gdx.files.internal("src/assets/Board_01.png"));
         robot1Image = new Texture(Gdx.files.internal("src/assets/robot1.png"));
         batch = new SpriteBatch();

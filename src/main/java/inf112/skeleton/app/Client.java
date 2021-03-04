@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
-abstract class networkComponent{
+abstract class NetworkComponent{
     private DataInputStream in = null;
     private DataOutputStream out = null;
 
@@ -54,33 +54,40 @@ abstract class networkComponent{
 
 }
 
-class Client extends networkComponent {
+class Client extends NetworkComponent {
     private Socket socket = null;
+    private int playerNr = 0;
     Client(String ip, int port)  {
         try{
             socket = new Socket(ip,port);
+            playerNr = Integer.parseInt(receiveString(socket));
         }
         catch(IOException i){
             System.out.print(i);
         }
     }
 
+    public int getPlayerNr(){
+        return playerNr;
+    }
+
     @Override
     ArrayList<playerInputs> communicateToPlayers(playerInputs inputs) {
         String s = receiveString(socket); // wait for confirmation
+        ArrayList<playerInputs> pInputs = new ArrayList<playerInputs>();
         if(s.equals("v")){ // got confirmation to send inputs
             sendInputs(inputs,socket);
             String numberOfPlayers = receiveString(socket);// get the number of player inputs that will be sent
             for(int i = 0; i < Integer.parseInt(numberOfPlayers); i++){
-                receiveInputs(socket);//get inputs from players
+                pInputs.add(receiveInputs(socket));//get inputs from players
             }
         }
-        return null;
+        return pInputs;
     }
 }
 
 
-class Host extends networkComponent{
+class Host extends NetworkComponent{
     private ArrayList<Socket> sockets = new ArrayList<Socket>();
     private ServerSocket server = null;
     ArrayList<playerInputs> pInputs = new ArrayList<playerInputs>();
@@ -88,13 +95,12 @@ class Host extends networkComponent{
 
     Host(int port) {
         try{
-
             server = new ServerSocket(port);
             InetAddress ip = InetAddress.getLocalHost();
             System.out.println("host ip is:"+ip);
             sockets.add(server.accept());
             System.out.println("CONNECTED");
-
+            sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1));
         }
         catch(IOException i){
             System.out.print(i);

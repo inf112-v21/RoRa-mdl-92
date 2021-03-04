@@ -26,10 +26,30 @@ public class Game implements ApplicationListener {
     public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
     public Random rand = new Random();
     public int currentUser = 0; // the player that the applications user controls
+    public boolean isOnline = false;
+    public NetworkComponent networkComponent = null;
 
 
     public void DoTurn() {
         turn += 1;
+        if(isOnline){
+            //get inputs from other players
+            ArrayList<playerInputs> otherPlayerInputs = networkComponent.communicateToPlayers(playerList.get(currentUser).cardInputs);
+            for(int i = 0; i < playerList.size(); i++){ // set inputs to respective players
+                if(i != currentUser){
+                    playerList.get(i).cardInputs = otherPlayerInputs.get(0);
+                    otherPlayerInputs.remove(0);
+                }
+            }
+        }
+        else { // if you only play with IA
+            for(int i = 0; i < playerList.size(); i++){
+                if(i != currentUser){
+                    playerList.get(i).doAiTurn();
+                }
+            }
+        }
+
 
         //Deal Cards to players.
         for(Player p: playerList){
@@ -97,25 +117,45 @@ public class Game implements ApplicationListener {
     // overrides from application listener
     @Override
     public void create() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("select mode, 1 for singel player, 2 for multiplayer");
+        if(scanner.nextInt() == 2){
+            isOnline = true;
+        }
+        if(isOnline){
+            System.out.println("press 1 for host, 2 for client");
+            if(scanner.nextInt() == 1){
+                networkComponent = new Host(8001);
+            }
+            else {
+                System.out.println("enter host IP");
+                scanner.nextLine();
+                String ip = scanner.nextLine();
+                networkComponent = new Client(ip,8001);
+                Client c = (Client)networkComponent;
+                currentUser = c.getPlayerNr();
+            }
+        }
         batch = new SpriteBatch();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
-        Player p1 = new Player(new Robot());
-        // add dummy cards to player 1s hand
-        p1.hand.add(new Move1Card());
-        p1.hand.add(new UTurnCard());
-        p1.hand.add(new TurnRightCard());
-        p1.hand.add(new Move3Card());
-        p1.hand.add(new TurnRightCard());
-        p1.hand.add(new Move3Card());
-        p1.hand.add(new Move3Card());
-        p1.hand.add(new Move3Card());
-        p1.hand.add(new Move3Card());
+        playerList.add(new Player(new Robot(0,0)));
+        playerList.add(new Player(new Robot(5,5)));
+        // add dummy cards to players hand
+        for(Player p : playerList){
+            p.hand.add(new Move1Card());
+            p.hand.add(new UTurnCard());
+            p.hand.add(new TurnRightCard());
+            p.hand.add(new Move3Card());
+            p.hand.add(new TurnRightCard());
+            p.hand.add(new Move3Card());
+            p.hand.add(new Move3Card());
+            p.hand.add(new Move3Card());
+            p.hand.add(new Move3Card());
+        }
+
         Gdx.input.setInputProcessor(inputReader);
-        //Player p2 = new Player();
-        //Player p3 = new Player();
-        //Player p4 = new Player();
-        playerList.addAll(Arrays.asList(p1));
+
     }
 
     @Override

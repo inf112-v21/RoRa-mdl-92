@@ -19,7 +19,9 @@ public class Robot {
 
     public Direction d = Direction.LEFT;
 
-    public Robot(){
+    public Robot(int x, int y){
+        posX = x;
+        posY = y;
         sprite = new Sprite(new Texture("src/assets/robot1.png"));
     }
 

@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 class Player {
@@ -17,7 +20,7 @@ class Player {
     public int damage=0;
     public ArrayList<Card> hand = new ArrayList<Card>();
     public Robot playerRobot;
-    private playerInputs cardInputs;
+    public playerInputs cardInputs;
     private ShapeRenderer shapeRenderer;
     private BitmapFont font;
 
@@ -91,8 +94,15 @@ class Player {
         }
     }
 
-
-
+    public void doAiTurn(){
+        Random rand = new Random();
+        ArrayList<Integer> intList = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4,5,6,7,8));
+        while(cardInputs.inputs.size() < 5){
+            int r = rand.nextInt(intList.size());
+            cardInputs.inputs.add(intList.get(r));
+            intList.remove(r);
+        }
+    }
 
     public boolean touchUp() {
         if(Gdx.input.getX() > 1000  && Gdx.input.getX() < 1200 && Gdx.input.getY() > 20){
@@ -115,6 +125,4 @@ class Player {
         }
         return true;
     }
-
-
 }
