@@ -20,7 +20,8 @@ public class Game implements ApplicationListener {
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
     public List<Card> cards = new ArrayList<Card>();
-    public List <Card> discard = new ArrayList<Card>();
+    public List<Card> discard = new ArrayList<Card>();
+    public List<Card> cardLibrary = new ArrayList<Card>();
     Map<Player, List<Integer>> playerRegisters = new HashMap<>();
     public TileMap gameBoard;
     public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
@@ -76,7 +77,7 @@ public class Game implements ApplicationListener {
         int i = rand.nextInt(cards.size()-1);
         out = cards.get(i);
         cards.remove(i);
-        return null;
+        return out;
     }
 
 
@@ -114,9 +115,16 @@ public class Game implements ApplicationListener {
         flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
         playerList.add(new Player(new Robot(0,0)));
         playerList.add(new Player(new Robot(11,11)));
+
+        CreateCardLibrary();
+        cards = cardLibrary;
+
         // add dummy cards to players hand
         for(Player p : playerList){
-            p.hand.add(new Move1Card());
+            for(int i = 0; i < 10; i++){
+                p.hand.add(DealCard());
+            }
+            /*p.hand.add(new Move1Card());
             p.hand.add(new UTurnCard());
             p.hand.add(new TurnRightCard());
             p.hand.add(new Move3Card());
@@ -124,11 +132,35 @@ public class Game implements ApplicationListener {
             p.hand.add(new Move3Card());
             p.hand.add(new Move3Card());
             p.hand.add(new Move3Card());
-            p.hand.add(new Move3Card());
+            p.hand.add(new Move3Card());*/
         }
 
         Gdx.input.setInputProcessor(inputReader);
 
+    }
+
+    private void CreateCardLibrary(){
+        for(int i = 490; i <= 650; i += 10){
+            cardLibrary.add(new Move1Card(i));
+        }
+        for(int i = 660; i <= 780; i += 10){
+            cardLibrary.add(new Move2Card(i));
+        }
+        for(int i = 790; i <= 840; i += 10){
+            cardLibrary.add(new Move3Card(i));
+        }
+        for(int i = 430; i <= 480; i += 10){
+            cardLibrary.add(new MoveBackCard(i));
+        }
+        for(int i = 70; i <= 410; i += 20){
+            cardLibrary.add(new TurnLeftCard(i));
+        }
+        for(int i = 80; i <= 420; i += 20){
+            cardLibrary.add(new TurnRightCard(i));
+        }
+        for(int i = 10; i <= 60; i += 10){
+            cardLibrary.add(new UTurnCard(i));
+        }
     }
 
     @Override

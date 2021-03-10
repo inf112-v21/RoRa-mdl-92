@@ -23,14 +23,6 @@ abstract class Card {
     }
     public Card(int _priority){
         priority = _priority;
-        if(cardSprites.size() == 0) {
-            cardSprites.add(new Sprite(new Texture("src/assets/move1.png")));
-            cardSprites.add(new Sprite(new Texture("src/assets/move2.png")));
-            cardSprites.add(new Sprite(new Texture("src/assets/move3.png")));
-            cardSprites.add(new Sprite(new Texture("src/assets/rotate_left.png")));
-            cardSprites.add(new Sprite(new Texture("src/assets/rotate_right.png")));
-            cardSprites.add(new Sprite(new Texture("src/assets/u_turn.png")));
-        }
     }
     public void draw(SpriteBatch s,int x, int y){
         s.draw(cardSprites.get(cardSprite).getTexture(),x,y);
@@ -39,6 +31,10 @@ abstract class Card {
 }
 
 class Move1Card extends Card{
+
+    public Move1Card(int _priority){
+        priority = _priority;
+    }
     @Override
     void DoAction(Robot me) {
         me.moveForward();
@@ -46,8 +42,9 @@ class Move1Card extends Card{
 }
 
 class Move2Card extends Card{
-    public Move2Card(){
+    public Move2Card(int _priority){
         cardSprite = 1;
+        priority = _priority;
     }
     @Override
     void DoAction(Robot me) {
@@ -56,7 +53,8 @@ class Move2Card extends Card{
     }
 }
 class Move3Card extends Card{
-    public Move3Card(){
+    public Move3Card(int _priority){
+        priority = _priority;
         cardSprite = 2;
     }
     @Override
@@ -67,8 +65,20 @@ class Move3Card extends Card{
     }
 }
 
+class MoveBackCard extends Card{
+    public MoveBackCard(int _priority){
+        priority = _priority;
+        cardSprite = 2;
+    }
+    @Override
+    void DoAction(Robot me) {
+        me.moveBackwards();
+    }
+}
+
 class TurnRightCard extends Card{
-    public TurnRightCard(){
+    public TurnRightCard(int _priority){
+        priority = _priority;
         cardSprite = 4;
     }
     @Override
@@ -77,7 +87,8 @@ class TurnRightCard extends Card{
     }
 }
 class TurnLeftCard extends Card{
-    public TurnLeftCard(){
+    public TurnLeftCard(int _priority){
+        priority = _priority;
         cardSprite = 3;
     }
     @Override
@@ -86,7 +97,8 @@ class TurnLeftCard extends Card{
     }
 }
 class UTurnCard extends Card{
-    public UTurnCard(){
+    public UTurnCard(int _priority){
+        priority = _priority;
         cardSprite = 5;
     }
     @Override
