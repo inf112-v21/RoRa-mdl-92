@@ -12,7 +12,18 @@ abstract class Card {
     int cardSprite = 0;
     static ArrayList<Sprite> cardSprites = new ArrayList<Sprite>(); // holds all the card sprites for the cards to use
     public Card(){
-        if(cardSprites.size() == 0){
+        if(cardSprites.size() == 0) {
+            cardSprites.add(new Sprite(new Texture("src/assets/move1.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/move2.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/move3.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/rotate_left.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/rotate_right.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/u_turn.png")));
+        }
+    }
+    public Card(int _priority){
+        priority = _priority;
+        if(cardSprites.size() == 0) {
             cardSprites.add(new Sprite(new Texture("src/assets/move1.png")));
             cardSprites.add(new Sprite(new Texture("src/assets/move2.png")));
             cardSprites.add(new Sprite(new Texture("src/assets/move3.png")));
