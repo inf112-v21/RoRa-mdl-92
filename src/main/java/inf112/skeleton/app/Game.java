@@ -65,6 +65,20 @@ public class Game implements ApplicationListener {
                 System.out.println("Player " +String.valueOf(i+1) + " WINS!");
             }
         }
+
+        //returns the cards from the player to the deck
+        for(Player p : playerList){
+            for(Card c: p.hand){
+                discard.add(c);
+            }
+            p.hand.clear();
+        }
+        //hands new cards to the players
+        for(Player p : playerList){
+            for(int i = 0; i < 10-p.damage; i++){
+                p.hand.add(DealCard());
+            }
+        }
     }
 
     public Card DealCard(){
@@ -124,15 +138,6 @@ public class Game implements ApplicationListener {
             for(int i = 0; i < 10; i++){
                 p.hand.add(DealCard());
             }
-            /*p.hand.add(new Move1Card());
-            p.hand.add(new UTurnCard());
-            p.hand.add(new TurnRightCard());
-            p.hand.add(new Move3Card());
-            p.hand.add(new TurnRightCard());
-            p.hand.add(new Move3Card());
-            p.hand.add(new Move3Card());
-            p.hand.add(new Move3Card());
-            p.hand.add(new Move3Card());*/
         }
 
         Gdx.input.setInputProcessor(inputReader);
