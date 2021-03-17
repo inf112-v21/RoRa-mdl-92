@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -52,6 +54,8 @@ public class Game implements ApplicationListener {
             }
         }
 
+
+        /* Testing HandleProgram
         //Deal Cards to players.
         for(Player p: playerList){
             //Player.takeCards(this);
@@ -59,6 +63,12 @@ public class Game implements ApplicationListener {
                 p.playCard();
             }
         }
+         */
+
+        for(int i = 0; i < 5; i++){
+            HandleProgram(i);
+        }
+
         //checks if a robot is on the flag
         for(int i = 0; i < playerList.size(); i++){
             if(playerList.get(i).playerRobot.posY == flag.posY && playerList.get(i).playerRobot.posX == flag.posX){
@@ -66,11 +76,14 @@ public class Game implements ApplicationListener {
             }
         }
 
+
+
         //returns the cards from the player to the deck
         for(Player p : playerList){
             for(Card c: p.hand){
                 discard.add(c);
             }
+            p.cardInputs.inputs.clear();
             p.hand.clear();
         }
         //hands new cards to the players
@@ -81,16 +94,34 @@ public class Game implements ApplicationListener {
         }
     }
 
-    public Card DealCard(){
-        if(cards.size() == 0){
-            List<Card> temp = cards;
-            cards = discard;
-            discard = temp;
+    public void HandleProgram(int _phase){
+        List<Player> actionOrder = playerList;
+        Collections.sort(actionOrder, new Comparator<Player>() {
+            @Override
+            public int compare(Player o1, Player o2) {
+                return o1.hand.get(o1.cardInputs.inputs.get(_phase)).priority-o2.hand.get(o2.cardInputs.inputs.get(_phase)).priority;
+            }
+        });
+
+        for(int i = 0; i < actionOrder.size(); i++){
+            actionOrder.get(i).hand.get(actionOrder.get(i).cardInputs.inputs.get(_phase)).DoAction(actionOrder.get(i).playerRobot);
         }
+    }
+
+    public Card DealCard(){
         Card out;
-        int i = rand.nextInt(cards.size()-1);
-        out = cards.get(i);
-        cards.remove(i);
+        if(cards.size() == 1){
+            out = cards.get(0);
+            for(Card c: discard){
+                System.out.print("Shuffle...");
+                cards.add(c);
+            }
+            discard.clear();
+        }else{
+            int i = rand.nextInt(cards.size()-1);
+            out = cards.get(i);
+            cards.remove(i);
+        }
         return out;
     }
 
