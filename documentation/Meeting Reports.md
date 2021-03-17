@@ -107,3 +107,19 @@ assigned tasks for everyone
 
 went over the current code so that everyone could get up to speed on how it works
 
+17/03/2021 Time (12:15 - 13:45)
+checked up on what everyone have done the past week
+
+reviewed the feedback from obligitory assignment 2
+
+checked out obligitory assignment 3 and wrote some begining points for it
+
+assigned new tasks
+
+Ola - finetune and fix the robot movements. create belts, pushers and walls
+
+Herman - creat a gui startscreen
+
+Pål - create classes for the holes, gears
+
+Thomas - implement robot respawn
