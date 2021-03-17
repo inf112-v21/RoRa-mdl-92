@@ -107,15 +107,12 @@ class Player {
             if(c > 6){
                 x += 100;
             }
-
             int y = (cardInputs.inputs.get(i)%7*140 + 120);
             font.draw(s,Integer.toString(i+1),x,y);
-
         }
     }
 
-    public void doAiTurn(){
-        Random rand = new Random();
+    public void doAiTurn(Random rand){
         ArrayList<Integer> intList = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4,5,6,7,8));
         while(cardInputs.inputs.size() < 5){
             int r = rand.nextInt(intList.size());

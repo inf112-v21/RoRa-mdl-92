@@ -49,7 +49,7 @@ public class Game implements ApplicationListener {
         else { // if you only play with IA
             for(int i = 0; i < playerList.size(); i++){
                 if(i != currentUser){
-                    playerList.get(i).doAiTurn();
+                    playerList.get(i).doAiTurn(rand);
                 }
             }
         }
@@ -132,29 +132,36 @@ public class Game implements ApplicationListener {
     // overrides from application listener
     @Override
     public void create() {
+        //debug/test kode
         Scanner scanner = new Scanner(System.in);
         System.out.println("select mode, 1 for singel player, 2 for multiplayer");
         if(scanner.nextInt() == 2){
             isOnline = true;
         }
+        long seed = System.currentTimeMillis();
         if(isOnline){
             System.out.println("press 1 for host, 2 for client");
             if(scanner.nextInt() == 1){
                 System.out.println("enter Port");
                 scanner.nextLine();
-                networkComponent = new Host(scanner.nextInt());
+                int port = scanner.nextInt();
+                networkComponent = new Host(port, seed);
             }
             else {
                 System.out.println("enter host IP");
                 scanner.nextLine();
                 String ip = scanner.nextLine();
                 System.out.println("enter host Port");
-                scanner.nextLine();
-                networkComponent = new Client(ip,scanner.nextInt());
+                int port = scanner.nextInt();
+                networkComponent = new Client(ip,port);
                 Client c = (Client)networkComponent;
                 currentUser = c.getPlayerNr();
+                seed = c.getSeed();
             }
         }
+        System.out.println(seed);
+        rand.setSeed(seed);
+
         batch = new SpriteBatch();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
