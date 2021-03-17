@@ -46,18 +46,6 @@ class Player {
         }
     }
 
-    public List<Integer> ProgramRegisters() {
-        List<Integer> registers = new ArrayList<>();
-        int bound = 8;
-        for (int i=0; i<5; i++) {
-            int randCard = ThreadLocalRandom.current().nextInt(0, bound);
-            registers.add(cardsList.get(randCard));
-            cardsList.remove(randCard);
-            bound--;
-        }
-        return registers;
-    }
-
     public void playCard(){
         hand.get(cardInputs.inputs.get(0)).DoAction(playerRobot);
         cardInputs.inputs.remove(0);
