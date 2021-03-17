@@ -94,7 +94,7 @@ public class Game implements ApplicationListener {
             if(scanner.nextInt() == 1){
                 System.out.println("enter Port");
                 scanner.nextLine();
-                networkComponent = new Host(scanner.nextInt());
+                networkComponent = new Host(3074);
             }
             else {
                 System.out.println("enter host IP");
@@ -163,7 +163,6 @@ public class Game implements ApplicationListener {
     @Override
     public void resume() {
     }
-
 
     // a class to read inputs from the application user
     class InputReader implements InputProcessor{
