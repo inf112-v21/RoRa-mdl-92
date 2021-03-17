@@ -57,6 +57,13 @@ Made the following User Histories:
 
 ARD - As the rules demand.
 
+10/03/2021 Time (12:15 - 13:00)
+Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland, Ola Meling Johannessen.
+
+assigned tasks for everyone
+
+went over the current code so that everyone could get up to speed on how it works
+
 brukerhistorier 2:
 1. jeg som spiller vil kunne gi kort til roboten for å bevege den ARD.
  - implementer kort klassen
