@@ -56,28 +56,20 @@ Communicated and did a retrospective. (See file Retrospective 20022021)
 Made the following User Histories:
 
 ARD - As the rules demand.
-
-10/03/2021 Time (12:15 - 13:00)
-Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland, Ola Meling Johannessen.
-
-assigned tasks for everyone
-
-went over the current code so that everyone could get up to speed on how it works
-
 brukerhistorier 2:
 1. jeg som spiller vil kunne gi kort til roboten for å bevege den ARD.
- - implementer kort klassen
- - implementer forskjellige kort
+- implementer kort klassen
+- implementer forskjellige kort
 2. jeg som robot vil kunne utføre kommandoer basert på programkort ARD.
- - roboten skal kunne lagre kommando kort
- - roboten skal kunne utføre et kort når den er bedt om det
+- roboten skal kunne lagre kommando kort
+- roboten skal kunne utføre et kort når den er bedt om det
 3. jeg som spiller vil kunne spille med andre spillere over nettet
 4. jeg som spiller vil kunne kommandere roboten til å reparere seg ARD.
- - det må være en knapp eller keyboard tast som vil få roboten til å reparere seg
+- det må være en knapp eller keyboard tast som vil få roboten til å reparere seg
 5. jeg som robot vil kunne reparere seg selv ARD.
- - roboten må ha en funksjon som healer den selv
+- roboten må ha en funksjon som healer den selv
 6. jeg som robot vil kunne skru av for en runde ARD.
- - hvis roboten ikke blir tildelt noen kort, er den skrudd av.
+- hvis roboten ikke blir tildelt noen kort, er den skrudd av.
 7. jeg som robot vil kunne ta skade ARD.
 8. jeg som robot vil kunne låse program kort på plass ARD.
 9. jeg som robot vil kunne bli ødelagt ARD.
@@ -104,6 +96,14 @@ Detemined Workflow for the coming sprint.
 3. Work on said project.
 4. Mark as finished when done.
 5. Return to step 1.
-
 Sidenote on step 3: Use project board to announce which files are in use to prevent Git issues.
 If possible, try to work with others.
+
+
+10/03/2021 Time (12:15 - 13:00)
+Members Present: Herman Fleischer, Pål A H Bentsen, Thomas Hillesland, Ola Meling Johannessen.
+
+assigned tasks for everyone
+
+went over the current code so that everyone could get up to speed on how it works
+
