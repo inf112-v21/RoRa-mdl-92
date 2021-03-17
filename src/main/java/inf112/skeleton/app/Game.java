@@ -80,6 +80,8 @@ public class Game implements ApplicationListener {
 
         //returns the cards from the player to the deck
         for(Player p : playerList){
+            p.LockCards();
+
             for(Card c: p.hand){
                 discard.add(c);
             }
@@ -104,7 +106,7 @@ public class Game implements ApplicationListener {
         });
 
         for(int i = 0; i < actionOrder.size(); i++){
-            actionOrder.get(i).hand.get(actionOrder.get(i).cardInputs.inputs.get(_phase)).DoAction(actionOrder.get(i).playerRobot);
+            actionOrder.get(i).getCard(_phase).DoAction(actionOrder.get(i).playerRobot);
         }
     }
 

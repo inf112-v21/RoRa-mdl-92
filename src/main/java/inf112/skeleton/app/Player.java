@@ -19,12 +19,32 @@ class Player {
     public List<Integer> cardsList = new ArrayList<>();
     public int damage=0;
     public ArrayList<Card> hand = new ArrayList<Card>();
+    public ArrayList<Card> lockedCards = new ArrayList<Card>();
     public Robot playerRobot;
     public playerInputs cardInputs;
     private ShapeRenderer shapeRenderer;
     private BitmapFont font;
 
+    // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
+    public Card getCard(int _phase){
+        if((lockedCards.size()) > 5-_phase){
+            return lockedCards.get(5-_phase);
+        }else{
+            return hand.get(cardInputs.inputs.get(_phase));
+        }
+    }
 
+    //Checks damage and locks cards in place if needed.
+    public void LockCards(){
+        for (int i = 0; i <= damage-5; i++){
+            if(lockedCards.size() < i+1){
+                lockedCards.add(getCard(5-i));
+            }
+        }
+        for (Card c : lockedCards){
+            hand.remove(c);
+        }
+    }
 
     public List<Integer> ProgramRegisters() {
         List<Integer> registers = new ArrayList<>();
