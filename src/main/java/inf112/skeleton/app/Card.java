@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ abstract class Card {
     public void draw(SpriteBatch s,int x, int y){
         s.draw(cardSprites.get(cardSprite).getTexture(),x,y);
     }
-    abstract void DoAction(Robot me);
+    abstract void DoAction(Robot me, Board board);
 }
 
 class Move1Card extends Card{
@@ -36,8 +37,10 @@ class Move1Card extends Card{
         priority = _priority;
     }
     @Override
-    void DoAction(Robot me) {
-        me.moveForward();
+    void DoAction(Robot me, Board board) {
+        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+            me.moveForward();
+        }
     }
 }
 
@@ -47,9 +50,13 @@ class Move2Card extends Card{
         priority = _priority;
     }
     @Override
-    void DoAction(Robot me) {
-        me.moveForward();
-        me.moveForward();
+    void DoAction(Robot me, Board board) {
+        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+            me.moveForward();
+            if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+                me.moveForward();
+            }
+        }
     }
 }
 class Move3Card extends Card{
@@ -58,10 +65,16 @@ class Move3Card extends Card{
         cardSprite = 2;
     }
     @Override
-    void DoAction(Robot me) {
-        me.moveForward();
-        me.moveForward();
-        me.moveForward();
+    void DoAction(Robot me, Board board) {
+        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+            me.moveForward();
+            if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+                me.moveForward();
+                if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
+                    me.moveForward();
+                }
+            }
+        }
     }
 }
 
@@ -71,8 +84,17 @@ class MoveBackCard extends Card{
         cardSprite = 2;
     }
     @Override
-    void DoAction(Robot me) {
-        me.moveBackwards();
+    void DoAction(Robot me, Board board) {
+        Direction reverse = me.d;
+        switch (me.d){
+            case UP: reverse = Direction.DOWN; break;
+            case DOWN: reverse = Direction.UP; break;
+            case LEFT: reverse = Direction.RIGHT; break;
+            case RIGHT: reverse = Direction.LEFT; break;
+        }
+        if (board.CanGo(reverse, new Coordinate(me.posX, me.posY))) {
+            me.moveBackwards();
+        }
     }
 }
 
@@ -82,7 +104,7 @@ class TurnRightCard extends Card{
         cardSprite = 4;
     }
     @Override
-    void DoAction(Robot me) {
+    void DoAction(Robot me, Board board) {
         me.turnRight();
     }
 }
@@ -92,7 +114,7 @@ class TurnLeftCard extends Card{
         cardSprite = 3;
     }
     @Override
-    void DoAction(Robot me) {
+    void DoAction(Robot me, Board board) {
         me.turnLeft();
     }
 }
@@ -102,7 +124,7 @@ class UTurnCard extends Card{
         cardSprite = 5;
     }
     @Override
-    void DoAction(Robot me) {
+    void DoAction(Robot me, Board board) {
         me.turnRight();
         me.turnRight();
     }

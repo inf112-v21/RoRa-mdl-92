@@ -24,14 +24,13 @@ public class Game implements ApplicationListener {
     public List<Card> cards = new ArrayList<Card>();
     public List<Card> discard = new ArrayList<Card>();
     public List<Card> cardLibrary = new ArrayList<Card>();
-    Map<Player, List<Integer>> playerRegisters = new HashMap<>();
     public TileMap gameBoard;
-    public Map<Integer, Map<Player, Integer>> registerHistory = new HashMap<>();
     public Random rand = new Random();
     public int currentUser = 0; // the player that the applications user controls
     public boolean isOnline = false;
     public NetworkComponent networkComponent = null;
     public Flag flag = null;
+    public Board board = new Board();
 
 
     public void DoTurn() {
@@ -68,6 +67,9 @@ public class Game implements ApplicationListener {
         for(int i = 0; i < 5; i++){
             HandleProgram(i);
         }
+
+        board.ExpressBeltMove();
+        board.BeltMove();
 
         //checks if a robot is on the flag
         for(int i = 0; i < playerList.size(); i++){
@@ -106,7 +108,7 @@ public class Game implements ApplicationListener {
         });
 
         for(int i = 0; i < actionOrder.size(); i++){
-            actionOrder.get(i).getCard(_phase).DoAction(actionOrder.get(i).playerRobot);
+            actionOrder.get(i).getCard(_phase).DoAction(actionOrder.get(i).playerRobot, board);
         }
     }
 
@@ -175,6 +177,7 @@ public class Game implements ApplicationListener {
 
         // add dummy cards to players hand
         for(Player p : playerList){
+            board.robots.add(p.playerRobot); //Adds the robots to the board for collision tracking.
             for(int i = 0; i < 10; i++){
                 p.hand.add(DealCard());
             }

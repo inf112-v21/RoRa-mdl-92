@@ -46,10 +46,12 @@ class Player {
         }
     }
 
+    /*
     public void playCard(){
         hand.get(cardInputs.inputs.get(0)).DoAction(playerRobot);
         cardInputs.inputs.remove(0);
     }
+    */
 
     public boolean canPlayCard(){
         return cardInputs.inputs.size() != 0;
