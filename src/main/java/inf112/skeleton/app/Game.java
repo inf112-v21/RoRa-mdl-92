@@ -66,10 +66,9 @@ public class Game implements ApplicationListener {
 
         for(int i = 0; i < 5; i++){
             HandleProgram(i);
+            board.ExpressBeltMove();
+            board.BeltMove();
         }
-
-        board.ExpressBeltMove();
-        board.BeltMove();
 
         //checks if a robot is on the flag
         for(int i = 0; i < playerList.size(); i++){
