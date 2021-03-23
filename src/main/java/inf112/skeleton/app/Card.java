@@ -20,6 +20,7 @@ abstract class Card {
             cardSprites.add(new Sprite(new Texture("src/assets/rotate_left.png")));
             cardSprites.add(new Sprite(new Texture("src/assets/rotate_right.png")));
             cardSprites.add(new Sprite(new Texture("src/assets/u_turn.png")));
+            cardSprites.add(new Sprite(new Texture("src/assets/backup.png")));
         }
     }
     public Card(int _priority){
@@ -81,7 +82,7 @@ class Move3Card extends Card{
 class MoveBackCard extends Card{
     public MoveBackCard(int _priority){
         priority = _priority;
-        cardSprite = 2;
+        cardSprite = 6;
     }
     @Override
     void DoAction(Robot me, Board board) {

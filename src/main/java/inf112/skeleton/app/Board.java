@@ -8,12 +8,14 @@ public class Board {
     Collection<Wall> walls;
     Collection<ConveyorBelt> belts;
     Collection<ConveyorBelt> express;
+    Collection<Pusher> pushers;
 
     public Board(){
         robots = new ArrayList<Robot>();
         walls = new ArrayList<Wall>();
         belts = new ArrayList<ConveyorBelt>();
         express = new ArrayList<ConveyorBelt>();
+        pushers = new ArrayList<Pusher>();
 
         //Hardcoded default map
         walls.add(new Wall(0, 2,false, false, false, true));
@@ -170,6 +172,7 @@ public class Board {
         }
     }
 
+    //Does the express Conveyor Belt Movement for all robots
     public void ExpressBeltMove(){
         for(Robot r: robots){
             ConveyorBelt here = null;
@@ -194,6 +197,28 @@ public class Board {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    //Does the Pusher movement for all robots.
+    public void PusherMove(){
+        Coordinate _robotPos;
+        for (Robot r: robots) {
+            _robotPos = new Coordinate(r.posX, r.posY);
+            Pusher here = null;
+            for(Pusher p: pushers){
+                if (p.target.equals(_robotPos)){
+                    here = p;
+                }
+            }
+            if (here == null){
+                return;
+            }
+            if (CanGo(here.dir, here.target)) {
+                Coordinate next = here.target.Step(here.dir);
+                r.posX = next.x;
+                r.posY = next.y;
             }
         }
     }
@@ -322,5 +347,17 @@ class ConveyorBelt {
     public ConveyorBelt(Direction _dir, Coordinate _pos){
         dir = _dir;
         pos = _pos;
+    }
+}
+
+class Pusher {
+    Direction dir;
+    Coordinate pos;
+    Coordinate target;
+
+    public Pusher(Direction _dir, Coordinate _pos){
+        dir = _dir;
+        pos = _pos;
+        target = pos.Step(dir);
     }
 }

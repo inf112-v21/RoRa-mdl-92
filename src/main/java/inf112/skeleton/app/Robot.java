@@ -39,7 +39,6 @@ public class Robot {
     }
 
     public void moveForward(){
-
         switch (d){
             case UP: posY++; break;
             case DOWN: posY--; break;
