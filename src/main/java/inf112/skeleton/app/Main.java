@@ -14,7 +14,5 @@ public class Main {
         new Lwjgl3Application(new Game(), cfg);
 
 
-        //For TiledMap testing
-        //new Lwjgl3Application(new TileMap(), cfg);
     }
 }
