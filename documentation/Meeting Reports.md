@@ -123,3 +123,16 @@ Herman - creat a gui startscreen
 Pål - create classes for the holes, gears
 
 Thomas - implement robot respawn
+
+
+
+24/03/2021 Time (12:15 - 13:45)
+checked up on what everyone have done the past week
+
+helped Pål with some of the problems he had with his task
+
+finished up a couple of features, like the damage, lasers and respawn
+
+reviewed what featers we want to have done for the 3. obligatory assignment and what can wait
+
+agreed to meet again tomorrow to write up all the points on the 3. obligatory assignment
