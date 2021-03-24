@@ -39,17 +39,12 @@ public class Robot {
     }
 
     public void moveForward(){
-        if(d == Direction.UP){
-            posY++;
-        }
-        else if(d == Direction.LEFT){
-            posX--;
-        }
-        else if(d == Direction.RIGHT){
-            posX++;
-        }
-        else if(d == Direction.DOWN){
-            posY--;
+        switch (d){
+            case UP: posY++; break;
+            case DOWN: posY--; break;
+            case RIGHT: posX++; break;
+            case LEFT: posX--; break;
+            default: break;
         }
     }
 

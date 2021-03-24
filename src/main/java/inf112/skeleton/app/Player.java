@@ -19,29 +19,39 @@ class Player {
     public List<Integer> cardsList = new ArrayList<>();
     public int damage=0;
     public ArrayList<Card> hand = new ArrayList<Card>();
+    public ArrayList<Card> lockedCards = new ArrayList<Card>();
     public Robot playerRobot;
     public playerInputs cardInputs;
     private ShapeRenderer shapeRenderer;
     private BitmapFont font;
 
-
-
-    public List<Integer> ProgramRegisters() {
-        List<Integer> registers = new ArrayList<>();
-        int bound = 8;
-        for (int i=0; i<5; i++) {
-            int randCard = ThreadLocalRandom.current().nextInt(0, bound);
-            registers.add(cardsList.get(randCard));
-            cardsList.remove(randCard);
-            bound--;
+    // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
+    public Card getCard(int _phase){
+        if((lockedCards.size()) > 5-_phase){
+            return lockedCards.get(5-_phase);
+        }else{
+            return hand.get(cardInputs.inputs.get(_phase));
         }
-        return registers;
     }
 
+    //Checks damage and locks cards in place if needed.
+    public void LockCards(){
+        for (int i = 0; i <= damage-5; i++){
+            if(lockedCards.size() < i+1){
+                lockedCards.add(getCard(5-i));
+            }
+        }
+        for (Card c : lockedCards){
+            hand.remove(c);
+        }
+    }
+
+    /*
     public void playCard(){
         hand.get(cardInputs.inputs.get(0)).DoAction(playerRobot);
         cardInputs.inputs.remove(0);
     }
+    */
 
     public boolean canPlayCard(){
         return cardInputs.inputs.size() != 0;
@@ -87,15 +97,12 @@ class Player {
             if(c > 6){
                 x += 100;
             }
-
             int y = (cardInputs.inputs.get(i)%7*140 + 120);
             font.draw(s,Integer.toString(i+1),x,y);
-
         }
     }
 
-    public void doAiTurn(){
-        Random rand = new Random();
+    public void doAiTurn(Random rand){
         ArrayList<Integer> intList = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4,5,6,7,8));
         while(cardInputs.inputs.size() < 5){
             int r = rand.nextInt(intList.size());

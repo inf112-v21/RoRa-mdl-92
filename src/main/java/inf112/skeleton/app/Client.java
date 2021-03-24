@@ -57,10 +57,12 @@ abstract class NetworkComponent{
 class Client extends NetworkComponent {
     private Socket socket = null;
     private int playerNr = 0;
+    private long seed = 0;
     Client(String ip, int port)  {
         try{
             socket = new Socket(ip,port);
             playerNr = Integer.parseInt(receiveString(socket));
+            seed = Long.valueOf(receiveString(socket));
         }
         catch(IOException i){
             System.out.print(i);
@@ -71,6 +73,10 @@ class Client extends NetworkComponent {
         return playerNr;
     }
 
+    public long getSeed(){
+        return seed;
+    }
+
     @Override
     ArrayList<playerInputs> communicateToPlayers(playerInputs inputs) {
         String s = receiveString(socket); // wait for confirmation
@@ -78,6 +84,9 @@ class Client extends NetworkComponent {
         if(s.equals("v")){ // got confirmation to send inputs
             sendInputs(inputs,socket);
             String numberOfPlayers = receiveString(socket);// get the number of player inputs that will be sent
+            if(numberOfPlayers.equals("v")){ // if you recieve a ping afterwards
+                numberOfPlayers = receiveString(socket);
+            }
             for(int i = 0; i < Integer.parseInt(numberOfPlayers); i++){
                 pInputs.add(receiveInputs(socket));//get inputs from players
             }
@@ -93,14 +102,15 @@ class Host extends NetworkComponent{
     ArrayList<playerInputs> pInputs = new ArrayList<playerInputs>();
     int playerToCheck = 0;
 
-    Host(int port) {
+    Host(int port, long seed) {
         try{
             server = new ServerSocket(port);
             InetAddress ip = InetAddress.getLocalHost();
             System.out.println("host ip is:"+ip);
             sockets.add(server.accept());
             System.out.println("CONNECTED");
-            sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1));
+            sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
+            sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
         }
         catch(IOException i){
             System.out.print(i);
