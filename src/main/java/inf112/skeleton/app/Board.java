@@ -191,6 +191,50 @@ public class Board {
         }
     }
 
+    public void WheelRotate(){
+        for(Robot r: robots ){
+            CogWheel here = null;
+            for (CogWheel b: cogWheels){
+                if((b.X == r.posX)&&(b.Y == r.posY)){
+                    here = b;
+                }
+            }
+            if (here == null){
+                return;
+            }
+            if(CanGo(here.dir, here.pos)){
+                Coordinate next = here.pos.Step(here.dir);
+                r.posX = next.x;
+                r.posY = next.y;
+                for(CogWheel b: cogWheels){
+                    if(b..equals(next)){
+                        switch(CompareDir(here.dir, b.dir)){
+
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void HoleFall(){
+        for(Robot r: robots){
+            Hole here = null;
+            for (Hole b: hole){
+                if ((b.X==r.posX)&&(b.Y == r.posY)){
+                    here = b;
+                }
+            }
+            if (here == null){
+                return;
+            }
+            if (CanGo(here.dir, here.pos)){
+
+            }
+        }
+    }
+
     //Does the express Conveyor Belt Movement for all robots
     public void ExpressBeltMove(){
         for(Robot r: robots){

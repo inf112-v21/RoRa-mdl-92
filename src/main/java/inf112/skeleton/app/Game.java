@@ -69,6 +69,8 @@ public class Game implements ApplicationListener {
             board.ExpressBeltMove();
             board.BeltMove();
             board.PusherMove();
+            //board.WheelRotate();
+            //board.HoleFall();
         }
 
         //checks if a robot is on the flag

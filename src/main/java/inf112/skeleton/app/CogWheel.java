@@ -6,7 +6,6 @@ abstract class CogWheel {
 
     abstract void DoAction(Robot me);
     int cogWheelSprite = 0;
-
 }
 
 class CogWheelRight extends CogWheel{
@@ -14,12 +13,9 @@ class CogWheelRight extends CogWheel{
         X = X_;
         Y = Y_;
     }
-
     @Override
-
     void DoAction(Robot me){
         me.turnRight();
-
     }
 }
 
@@ -31,7 +27,5 @@ class CogWheelLeft extends CogWheel{
     @Override
     void DoAction(Robot me){
         me.turnLeft();
-
-
     }
 }
