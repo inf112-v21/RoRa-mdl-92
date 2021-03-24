@@ -9,6 +9,8 @@ public class Board {
     Collection<ConveyorBelt> belts;
     Collection<ConveyorBelt> express;
     Collection<Pusher> pushers;
+    Collection<CogWheel> cogWheels;
+    Collection<Hole> hole;
 
     public Board(){
         robots = new ArrayList<Robot>();
@@ -16,6 +18,8 @@ public class Board {
         belts = new ArrayList<ConveyorBelt>();
         express = new ArrayList<ConveyorBelt>();
         pushers = new ArrayList<Pusher>();
+        cogWheels = new ArrayList<CogWheel>();
+        hole = new ArrayList<Hole>();
 
         //Hardcoded default map
         walls.add(new Wall(0, 2,false, false, false, true));
@@ -99,6 +103,21 @@ public class Board {
         belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(9, 3)));
         belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(10, 3)));
         belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(11, 3)));
+
+        cogWheels.add(new CogWheelLeft(2,5));
+        cogWheels.add(new CogWheelLeft(5,3));
+        cogWheels.add(new CogWheelLeft(6,7));
+        cogWheels.add(new CogWheelLeft(8,3));
+
+        cogWheels.add(new CogWheelRight(2,6));
+        cogWheels.add(new CogWheelRight(4,3));
+        cogWheels.add(new CogWheelRight(8,6));
+
+        hole.add(new Hole (5,2));
+        hole.add(new Hole (9,2));
+        hole.add(new Hole (9,8));
+        hole.add(new Hole (7,5));
+        hole.add(new Hole (1,10));
     }
 
     //A function to check is movement is valid in a direction, will also handle shoving.
