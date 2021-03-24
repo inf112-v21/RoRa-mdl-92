@@ -191,6 +191,7 @@ public class Board {
         }
     }
 
+    //foreløpig usikkert om denne skjønner hvilken type hjul som skal snurre
     public void WheelRotate(){
         for(Robot r: robots ){
             for (CogWheel b: cogWheels){
