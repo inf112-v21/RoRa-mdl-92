@@ -71,6 +71,7 @@ public class Game implements ApplicationListener {
             board.PusherMove();
             board.WheelRotate();
             board.HoleFall();
+            board.FireLasers();
         }
 
         //checks if a robot is on the flag

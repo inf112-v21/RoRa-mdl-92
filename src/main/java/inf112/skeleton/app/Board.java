@@ -11,6 +11,11 @@ public class Board {
     Collection<Pusher> pushers;
     Collection<CogWheel> cogWheels;
     Collection<Hole> hole;
+    Collection<LaserShooter> lasers;
+    int maxX = 11;
+    int maxY = 11;
+    int minX = 0;
+    int minY = 0;
 
     public Board(){
         robots = new ArrayList<Robot>();
@@ -20,6 +25,7 @@ public class Board {
         pushers = new ArrayList<Pusher>();
         cogWheels = new ArrayList<CogWheel>();
         hole = new ArrayList<Hole>();
+        lasers = new ArrayList<>();
 
         //Hardcoded default map
         walls.add(new Wall(0, 2,false, false, false, true));
@@ -118,6 +124,13 @@ public class Board {
         hole.add(new Hole (9,8));
         hole.add(new Hole (7,5));
         hole.add(new Hole (1,10));
+
+        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(1,1), 3));
+        lasers.add(new LaserShooter(Direction.UP, new Coordinate(2,4), 1));
+        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(6,3), 2));
+        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(5,10), 1));
+        lasers.add(new LaserShooter(Direction.RIGHT, new Coordinate(7,1), 1));
+        lasers.add(new LaserShooter(Direction.UP, new Coordinate(8,5), 1));
     }
 
     //A function to check is movement is valid in a direction, will also handle shoving.
@@ -160,6 +173,43 @@ public class Board {
         }
 
         return true;
+    }
+
+    //A function to check if a laser collides with anything.
+    public boolean LaserCheck(Direction dir, Coordinate pos, int str){
+        if(pos.x < minX || pos.y < minY || pos.x > maxX || pos.y > maxY){
+            return false;
+        }
+        //Checks if the current space has a blocking wall.
+        for(Wall w: walls){
+            if(w.pos.equals(pos)){
+                if(w.CollideExit(dir)){
+                    return false;
+                }
+            }
+        }
+
+        //generate the destination tile coordinate
+        Coordinate next = pos.Step(dir);
+
+        //Checks if the target space has a blocking wall.
+        for(Wall w: walls){
+            if(w.pos.equals(next)){
+                if(w.CollideEnter(dir)){
+                    return false;
+                }
+            }
+        }
+
+        //Checks if the target space has a robot.
+        for(Robot r: robots){
+            if((r.posX == next.x)&&(r.posY == next.y)){
+                r.takeDamage(str);
+                return false;
+            }
+        }
+
+        return LaserCheck(dir, pos.Step(dir), str);
     }
 
     //Does a regular Conveyor Belt movement for all robots
@@ -260,6 +310,25 @@ public class Board {
                 Coordinate next = here.target.Step(here.dir);
                 r.posX = next.x;
                 r.posY = next.y;
+            }
+        }
+    }
+
+    public void FireLasers(){
+        for(Robot r: robots){
+            LaserCheck(r.d, new Coordinate(r.posX, r.posY), 1);
+        }
+        for(LaserShooter l: lasers){
+            Robot target = null;
+            for(Robot r: robots){
+                if (r.posX == l.pos.x && r.posY == l.pos.y){
+                    target = r;
+                }
+            }
+            if(target != null){
+                target.takeDamage(l.str);
+            }else{
+                LaserCheck(l.dir, l.pos, l.str);
             }
         }
     }
@@ -400,5 +469,17 @@ class Pusher {
         dir = _dir;
         pos = _pos;
         target = pos.Step(dir);
+    }
+}
+
+class LaserShooter{
+    Coordinate pos;
+    Direction dir;
+    int str;
+
+    public LaserShooter(Direction _dir, Coordinate _pos, int _str){
+        dir = _dir;
+        pos = _pos;
+        str = _str;
     }
 }
