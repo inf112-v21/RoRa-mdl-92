@@ -5,14 +5,22 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Robot {
-    public int initialHealth=100;
+    public int Health = 10;
     public boolean initialDeathStatus=false;
     public Sprite sprite;
     public int initialCheckpoint=0;
 
     public int posX=0;
     public int posY=0;
+    public int respawnPosX=0;
+    public int respawnPosY=0;
+    public int originalPosX=0;
+    public int originalPosY=0;
+
 
     public boolean isPowered = true;
 
@@ -21,6 +29,10 @@ public class Robot {
     public Robot(int x, int y){
         posX = x;
         posY = y;
+        respawnPosX = x;
+        respawnPosY = y;
+        originalPosX=x;
+        originalPosY=y;
         sprite = new Sprite(new Texture("src/assets/robot1.png"));
     }
 
@@ -36,6 +48,31 @@ public class Robot {
             rotation = 90;
         }
         s.draw(new TextureRegion(sprite.getTexture()),83*posX,83*posY,41,41,83,83,1,1,rotation);
+    }
+
+    public void takeDamage(int damage){
+        Health -= damage;
+        if(Health <= 0){
+            respawn();
+        }
+    }
+
+    public void respawn(/*ArrayList<Player> players*/){
+        boolean overlap = false;
+//        for(Player player : players){
+//            if(player.playerRobot.posX == respawnPosX && player.playerRobot.posY == respawnPosY){
+//                overlap = true;
+//                break;
+//            }
+//        }
+        if(overlap){
+            posX = originalPosX;
+            posY = originalPosY;
+        }else {
+            posX = respawnPosX;
+            posY = respawnPosY;
+        }
+        Health = 10;
     }
 
     public void moveForward(){
