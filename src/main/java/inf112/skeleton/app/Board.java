@@ -196,41 +196,26 @@ public class Board {
             CogWheel here = null;
             for (CogWheel b: cogWheels){
                 if((b.X == r.posX)&&(b.Y == r.posY)){
-                    here = b;
+                    b.DoAction(r);
                 }
             }
             if (here == null){
                 return;
             }
-            if(CanGo(here.dir, here.pos)){
-                Coordinate next = here.pos.Step(here.dir);
-                r.posX = next.x;
-                r.posY = next.y;
-                for(CogWheel b: cogWheels){
-                    if(b..equals(next)){
-                        switch(CompareDir(here.dir, b.dir)){
-
-                        }
-                    }
-                }
-            }
         }
-
     }
 
+    //makes robots fall and die (takes 10 damage and respawns) when walking on a hole
     public void HoleFall(){
         for(Robot r: robots){
             Hole here = null;
             for (Hole b: hole){
                 if ((b.X==r.posX)&&(b.Y == r.posY)){
-                    here = b;
+                    b.fallInHole(r);
                 }
             }
             if (here == null){
                 return;
-            }
-            if (CanGo(here.dir, here.pos)){
-
             }
         }
     }
