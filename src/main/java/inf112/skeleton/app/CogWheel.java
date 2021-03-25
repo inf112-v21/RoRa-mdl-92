@@ -8,6 +8,7 @@ abstract class CogWheel {
     int cogWheelSprite = 0;
 }
 
+//roterer roboten 90 grader mot høyre
 class CogWheelRight extends CogWheel{
     public CogWheelRight (int X_, int Y_){
         X = X_;
@@ -16,9 +17,11 @@ class CogWheelRight extends CogWheel{
     @Override
     void DoAction(Robot me){
         me.turnRight();
+        System.out.println("turning right");
     }
 }
 
+//roterer roboten 90 grader mot venstre
 class CogWheelLeft extends CogWheel{
     public CogWheelLeft (int X_, int Y_){
         X = X_;
@@ -27,5 +30,6 @@ class CogWheelLeft extends CogWheel{
     @Override
     void DoAction(Robot me){
         me.turnLeft();
+        System.out.println("turning left");
     }
 }
