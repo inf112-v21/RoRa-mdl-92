@@ -136,3 +136,11 @@ finished up a couple of features, like the damage, lasers and respawn
 reviewed what featers we want to have done for the 3. obligatory assignment and what can wait
 
 agreed to meet again tomorrow to write up all the points on the 3. obligatory assignment
+
+
+24/03/2021 Time (12:15 - 13:00) && (14:00 - 16:00)
+went trough and wrote some points on the obligatory assignment 3
+
+began writing some tests and better comments on the code
+
+tried to eliminate some of the new bugs
