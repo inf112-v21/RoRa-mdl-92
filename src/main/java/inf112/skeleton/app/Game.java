@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sun.source.tree.BinaryTree;
@@ -184,8 +185,8 @@ public class Game implements ApplicationListener {
         gameBoard = new TileMap();
         flag = new Flag(5,5);
         flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
-        playerList.add(new Player(new Robot(0,0)));
-        playerList.add(new Player(new Robot(11,11)));
+        playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
+        playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
 
         CreateCardLibrary();
         cards = cardLibrary;

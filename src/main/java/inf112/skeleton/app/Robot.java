@@ -29,14 +29,15 @@ public class Robot {
 
     public Direction d = Direction.LEFT;
 
-    public Robot(int x, int y){
+    public Robot(int x, int y, Sprite s){
         posX = x;
         posY = y;
         respawnPosX = x;
         respawnPosY = y;
         originalPosX=x;
         originalPosY=y;
-        sprite = new Sprite(new Texture("src/assets/robot1.png"));
+
+        sprite = s;
     }
 
     public void draw(SpriteBatch s, BitmapFont font, int playerNr){
@@ -66,7 +67,6 @@ public class Robot {
 
     public void respawn(List<Player> players){
         boolean overlap = false;
-        timeOut = false;
         for(Player player : players){
             if(player.playerRobot == this){
                 break;
