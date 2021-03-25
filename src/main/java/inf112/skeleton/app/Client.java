@@ -15,6 +15,11 @@ abstract class NetworkComponent{
     private DataInputStream in = null;
     private DataOutputStream out = null;
 
+    /***
+     *  sends a string of data to a socket socket
+     * @param s
+     * @param socket
+     */
     public void sendString(String s, Socket socket){
         try{
             out = new DataOutputStream(socket.getOutputStream());
@@ -29,6 +34,11 @@ abstract class NetworkComponent{
         }
     }
 
+    /***
+     * wait to receive a string of data from a socket
+     * @param socket
+     * @return returns the string
+     */
     public String receiveString(Socket socket){
         String s = "";
         try{
@@ -42,14 +52,29 @@ abstract class NetworkComponent{
         return s;
     }
 
+    /**
+     * sends game inputs to a socket
+     * @param inputs
+     * @param socket
+     */
     public void sendInputs(playerInputs inputs, Socket socket){
         sendString(inputs.getInputString(), socket);
     }
 
+    /**
+     * waits for inputs from a socket
+     * @param socket
+     * @return the game inputs
+     */
     public playerInputs receiveInputs(Socket socket){
         return new playerInputs(receiveString(socket));
     }
 
+    /**
+     * does the required networking for a turn, the method varies for hosts and clients
+     * @param inputs
+     * @return the inputs for all the other players
+     */
     abstract ArrayList<playerInputs> communicateToPlayers(playerInputs inputs);
 
 }
@@ -69,10 +94,18 @@ class Client extends NetworkComponent {
         }
     }
 
+    /**
+     * gets your assigned player number
+     * @return player number
+     */
     public int getPlayerNr(){
         return playerNr;
     }
 
+    /**
+     * gets the random seed that was set by the host
+     * @return seed
+     */
     public long getSeed(){
         return seed;
     }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Robot {
     public int Health = 10;
@@ -63,14 +64,17 @@ public class Robot {
         }
     }
 
-    public void respawn(/*ArrayList<Player> players*/){
+    public void respawn(List<Player> players){
         boolean overlap = false;
-//        for(Player player : players){
-//            if(player.playerRobot.posX == respawnPosX && player.playerRobot.posY == respawnPosY){
-//                overlap = true;
-//                break;
-//            }
-//        }
+        for(Player player : players){
+            if(player.playerRobot == this){
+                break;
+            }
+            if(player.playerRobot.posX == respawnPosX && player.playerRobot.posY == respawnPosY){
+                overlap = true;
+                break;
+            }
+        }
         System.out.print("Respawned");
         if(overlap){
             posX = originalPosX;

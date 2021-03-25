@@ -21,7 +21,7 @@ class Player {
     public ArrayList<Card> lockedCards = new ArrayList<Card>();
     public Robot playerRobot;
     public playerInputs cardInputs;
-    private ShapeRenderer shapeRenderer;
+
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
     public Card getCard(int _phase){
@@ -75,10 +75,10 @@ class Player {
     public Player(Robot robot){
         cardInputs = new playerInputs();
         playerRobot = robot;
-        shapeRenderer = new ShapeRenderer();
+
     }
 
-    public void drawHand(SpriteBatch s,BitmapFont font){
+    public void drawHand(SpriteBatch s,BitmapFont font, ShapeRenderer shapeRenderer){
         int yPos = 0;
         int xPos = 1000;
         s.end();

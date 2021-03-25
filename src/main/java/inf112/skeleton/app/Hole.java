@@ -14,6 +14,4 @@ public class Hole {
         System.out.println("fell in hole and died");
         me.takeDamage(10);
     }
-
-
 }

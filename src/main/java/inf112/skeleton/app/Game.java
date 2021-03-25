@@ -14,12 +14,14 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sun.source.tree.BinaryTree;
 
 
 public class Game implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
+    private ShapeRenderer shapeRenderer;
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
     public List<Card> cards = new ArrayList<Card>();
@@ -32,6 +34,7 @@ public class Game implements ApplicationListener {
     public NetworkComponent networkComponent = null;
     public Flag flag = null;
     public Board board = new Board();
+
 
 
     public void DoTurn() {
@@ -89,7 +92,7 @@ public class Game implements ApplicationListener {
             if(p.playerRobot.timeOut){
                 discard.addAll(p.lockedCards);
                 p.lockedCards.clear();
-                p.playerRobot.respawn();
+                p.playerRobot.respawn(playerList);
             }
             p.LockCards();
 
@@ -176,6 +179,7 @@ public class Game implements ApplicationListener {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
+        shapeRenderer = new ShapeRenderer();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
         flag = new Flag(5,5);
@@ -235,7 +239,7 @@ public class Game implements ApplicationListener {
 
         gameBoard.render();
         batch.begin();
-        playerList.get(currentUser).drawHand(batch,font);
+        playerList.get(currentUser).drawHand(batch,font, shapeRenderer);
         for(int i = 0;i < playerList.size();i++) {
             playerList.get(i).playerRobot.draw(batch, font, i + 1);
         }
