@@ -256,7 +256,7 @@ public class Board {
     //makes robots fall and die (takes 10 damage and respawns) when walking on a hole
     public void HoleFall(){
         for(Robot r: robots){
-            if(r.posX < 0 || r.posX > 11 || r.posY < 0 || r.posY > 11){ // robot falls in hole if they exit map
+            if(r.posX < minX || r.posX > minX || r.posY < minY || r.posY > maxY){ // robot falls in hole if they exit map
                 Hole h = new Hole(-1,-1);
                 h.fallInHole(r);
             }
