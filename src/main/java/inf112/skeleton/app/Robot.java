@@ -84,6 +84,7 @@ public class Robot {
             posY = respawnPosY;
         }
         Health = 10;
+        timeOut = false;
     }
 
     public void moveForward(){
