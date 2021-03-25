@@ -242,6 +242,7 @@ public class Board {
     }
 
     //foreløpig usikkert om denne skjønner hvilken type hjul som skal snurre
+    //makes robots rotate 90 degrees left/right (depending on cogwheel type)
     public void WheelRotate(){
         for(Robot r: robots ){
             for (CogWheel b: cogWheels){

@@ -102,7 +102,7 @@ public class Game implements ApplicationListener {
         }
         //hands new cards to the players
         for(Player p : playerList){
-            for(int i = 0; i < p.playerRobot.Health; i++){
+            for(int i = 1; i < p.playerRobot.Health; i++){
                 p.hand.add(DealCard());
             }
         }
@@ -114,12 +114,12 @@ public class Game implements ApplicationListener {
         Collections.sort(actionOrder, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
-                return o1.hand.get(o1.cardInputs.inputs.get(_phase)).priority-o2.hand.get(o2.cardInputs.inputs.get(_phase)).priority;
+                return o1.getCard(_phase, rand).priority-o2.getCard(_phase, rand).priority;
             }
         });
 
         for(int i = 0; i < actionOrder.size(); i++){
-            actionOrder.get(i).getCard(_phase).DoAction(actionOrder.get(i).playerRobot, board);
+            actionOrder.get(i).getCard(_phase, rand).DoAction(actionOrder.get(i).playerRobot, board);
         }
     }
 

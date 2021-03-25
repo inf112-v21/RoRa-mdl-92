@@ -9,9 +9,10 @@ public class Hole {
         Y = Y_;
     }
 
-    //tar maks damage og respawner
+    //gjør maks damage og respawner roboten
     public void fallInHole (Robot me){
         System.out.println("fell in hole and died");
         me.takeDamage(10);
+        System.out.println("fell in hole");
     }
 }

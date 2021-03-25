@@ -24,12 +24,19 @@ class Player {
 
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
-    public Card getCard(int _phase){
+    public Card getCard(int _phase, Random rand){
         if((lockedCards.size()) > 4-_phase){
             return lockedCards.get(4-_phase);
         }else{
-            return hand.get(cardInputs.inputs.get(_phase));
+            int newInt;
+            while(cardInputs.inputs.size()-1<= _phase){
+                newInt = rand.nextInt(hand.size());
+                if (!(cardInputs.inputs.contains(newInt))){
+                    cardInputs.inputs.add(newInt);
+                }
+            }
         }
+        return hand.get(cardInputs.inputs.get(_phase));
     }
 
 
@@ -38,23 +45,23 @@ class Player {
     public void LockCards(){
         if(playerRobot.Health < 6 && lockedCards.size() == 0){
             System.out.println("First Card Locked");
-            lockedCards.add(getCard(4));
+            lockedCards.add(hand.get(cardInputs.inputs.get(4)));
         }
         if(playerRobot.Health < 5 && lockedCards.size() == 1){
             System.out.println("Second Card Locked");
-            lockedCards.add(getCard(3));
+            lockedCards.add(hand.get(cardInputs.inputs.get(3)));
         }
         if(playerRobot.Health < 4 && lockedCards.size() == 2){
             System.out.println("Third Card Locked");
-            lockedCards.add(getCard(2));
+            lockedCards.add(hand.get(cardInputs.inputs.get(2)));
         }
         if(playerRobot.Health < 3 && lockedCards.size() == 3){
             System.out.println("Fourth Card Locked");
-            lockedCards.add(getCard(1));
+            lockedCards.add(hand.get(cardInputs.inputs.get(1)));
         }
         if(playerRobot.Health < 2 && lockedCards.size() == 4){
             System.out.println("Last Card Locked");
-            lockedCards.add(getCard(0));
+            lockedCards.add(hand.get(cardInputs.inputs.get(0)));
         }
         for (Card c : lockedCards){
             hand.remove(c);
@@ -117,12 +124,14 @@ class Player {
     }
 
     public void doAiTurn(Random rand){
+        /*
         ArrayList<Integer> intList = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4,5,6,7,8));
         while(cardInputs.inputs.size() < 5){
             int r = rand.nextInt(intList.size());
             cardInputs.inputs.add(intList.get(r));
             intList.remove(r);
         }
+        */
     }
 
     public boolean touchUp() {
