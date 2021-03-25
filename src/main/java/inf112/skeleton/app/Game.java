@@ -19,6 +19,7 @@ import com.sun.source.tree.BinaryTree;
 
 public class Game implements ApplicationListener {
     private SpriteBatch batch;
+    private BitmapFont font;
     public int turn=0;
     public List<Player> playerList = new ArrayList<>();
     public List<Card> cards = new ArrayList<Card>();
@@ -101,7 +102,8 @@ public class Game implements ApplicationListener {
     }
 
     public void HandleProgram(int _phase){
-        List<Player> actionOrder = playerList;
+        List<Player> actionOrder = new ArrayList<Player>();
+        actionOrder.addAll(playerList); // adds the players to the list
         Collections.sort(actionOrder, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
@@ -149,7 +151,9 @@ public class Game implements ApplicationListener {
                 System.out.println("enter Port");
                 scanner.nextLine();
                 int port = scanner.nextInt();
-                networkComponent = new Host(port, seed);
+                System.out.println("enter number of players (excluding the host player)");
+                int nrOfPLayers = scanner.nextInt();
+                networkComponent = new Host(port, seed, nrOfPLayers);
             }
             else {
                 System.out.println("enter host IP");
@@ -167,6 +171,7 @@ public class Game implements ApplicationListener {
         rand.setSeed(seed);
 
         batch = new SpriteBatch();
+        font = new BitmapFont();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
         flag = new Flag(5,5);
@@ -226,9 +231,9 @@ public class Game implements ApplicationListener {
 
         gameBoard.render();
         batch.begin();
-        playerList.get(currentUser).drawHand(batch);
-        for(Player p :playerList){
-            p.playerRobot.draw(batch);
+        playerList.get(currentUser).drawHand(batch,font);
+        for(int i = 0;i < playerList.size();i++) {
+            playerList.get(i).playerRobot.draw(batch, font, i + 1);
         }
         batch.draw(flag.texture,flag.posX*83,flag.posY*83);
         batch.end();

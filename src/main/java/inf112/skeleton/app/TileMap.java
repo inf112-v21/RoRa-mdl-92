@@ -57,6 +57,7 @@ public class TileMap{
                 mapLayers.getIndex("Conveyor Belts"),
                 mapLayers.getIndex("Holes"),
         };
+
     }
 
 

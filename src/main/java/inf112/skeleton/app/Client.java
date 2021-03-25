@@ -102,18 +102,21 @@ class Host extends NetworkComponent{
     ArrayList<playerInputs> pInputs = new ArrayList<playerInputs>();
     int playerToCheck = 0;
 
-    Host(int port, long seed) {
+    Host(int port, long seed, int nrOfPlayers) {
         try{
-            server = new ServerSocket(port);
-            InetAddress ip = InetAddress.getLocalHost();
-            System.out.println("host ip is:"+ip);
-            sockets.add(server.accept());
-            System.out.println("CONNECTED");
-            sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
-            sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
+        server = new ServerSocket(port);
+        InetAddress ip = InetAddress.getLocalHost();
+        System.out.println("host ip is:"+ip);
+            for(int i = 0; i < nrOfPlayers; i++){
+                sockets.add(server.accept());
+                System.out.println("CONNECTED player: " + Integer.toString(i+1));
+                sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
+                sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
+            }
+
         }
-        catch(IOException i){
-            System.out.print(i);
+        catch(IOException e){
+            System.out.print(e);
         }
     }
     class receiveInputsThread extends Thread{

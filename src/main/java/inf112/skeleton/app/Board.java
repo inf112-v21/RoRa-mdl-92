@@ -193,14 +193,10 @@ public class Board {
 
     public void WheelRotate(){
         for(Robot r: robots ){
-            CogWheel here = null;
             for (CogWheel b: cogWheels){
                 if((b.X == r.posX)&&(b.Y == r.posY)){
                     b.DoAction(r);
                 }
-            }
-            if (here == null){
-                return;
             }
         }
     }
@@ -208,14 +204,10 @@ public class Board {
     //makes robots fall and die (takes 10 damage and respawns) when walking on a hole
     public void HoleFall(){
         for(Robot r: robots){
-            Hole here = null;
             for (Hole b: hole){
                 if ((b.X==r.posX)&&(b.Y == r.posY)){
                     b.fallInHole(r);
                 }
-            }
-            if (here == null){
-                return;
             }
         }
     }

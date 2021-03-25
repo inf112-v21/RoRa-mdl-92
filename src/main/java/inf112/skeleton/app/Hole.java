@@ -11,6 +11,7 @@ public class Hole {
 
     //tar maks damage og respawner
     public void fallInHole (Robot me){
+        System.out.println("fell in hole and died");
         me.takeDamage(10);
     }
 

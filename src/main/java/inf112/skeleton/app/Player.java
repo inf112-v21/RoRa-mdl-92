@@ -23,7 +23,6 @@ class Player {
     public Robot playerRobot;
     public playerInputs cardInputs;
     private ShapeRenderer shapeRenderer;
-    private BitmapFont font;
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
     public Card getCard(int _phase){
@@ -58,13 +57,12 @@ class Player {
     }
 
     public Player(Robot robot){
-        font = new BitmapFont();
         cardInputs = new playerInputs();
         playerRobot = robot;
         shapeRenderer = new ShapeRenderer();
     }
 
-    public void drawHand(SpriteBatch s){
+    public void drawHand(SpriteBatch s,BitmapFont font){
         int yPos = 0;
         int xPos = 1000;
         s.end();
