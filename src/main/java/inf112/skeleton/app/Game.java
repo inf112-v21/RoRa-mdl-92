@@ -72,6 +72,7 @@ public class Game implements ApplicationListener {
             board.PusherMove();
             board.WheelRotate();
             board.HoleFall();
+            board.FireLasers();
         }
 
         //checks if a robot is on the flag
@@ -85,17 +86,20 @@ public class Game implements ApplicationListener {
 
         //returns the cards from the player to the deck
         for(Player p : playerList){
+            if(p.playerRobot.timeOut){
+                discard.addAll(p.lockedCards);
+                p.lockedCards.clear();
+                p.playerRobot.respawn();
+            }
             p.LockCards();
 
-            for(Card c: p.hand){
-                discard.add(c);
-            }
+            discard.addAll(p.hand);
             p.cardInputs.inputs.clear();
             p.hand.clear();
         }
         //hands new cards to the players
         for(Player p : playerList){
-            for(int i = 0; i < 10-p.damage; i++){
+            for(int i = 0; i < p.playerRobot.Health; i++){
                 p.hand.add(DealCard());
             }
         }

@@ -24,6 +24,7 @@ public class Robot {
 
 
     public boolean isPowered = true;
+    public boolean timeOut = false;
 
     public Direction d = Direction.LEFT;
 
@@ -56,7 +57,9 @@ public class Robot {
     public void takeDamage(int damage){
         Health -= damage;
         if(Health <= 0){
-            respawn();
+            posX = -1000;
+            posY = -1000;
+            timeOut = true;
         }
     }
 

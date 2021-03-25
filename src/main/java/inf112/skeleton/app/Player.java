@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class Player {
     public List<Integer> cardsList = new ArrayList<>();
-    public int damage=0;
     public ArrayList<Card> hand = new ArrayList<Card>();
     public ArrayList<Card> lockedCards = new ArrayList<Card>();
     public Robot playerRobot;
@@ -26,19 +25,36 @@ class Player {
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
     public Card getCard(int _phase){
-        if((lockedCards.size()) > 5-_phase){
-            return lockedCards.get(5-_phase);
+        if((lockedCards.size()) > 4-_phase){
+            return lockedCards.get(4-_phase);
         }else{
             return hand.get(cardInputs.inputs.get(_phase));
         }
     }
 
+
+
     //Checks damage and locks cards in place if needed.
     public void LockCards(){
-        for (int i = 0; i <= damage-5; i++){
-            if(lockedCards.size() < i+1){
-                lockedCards.add(getCard(5-i));
-            }
+        if(playerRobot.Health < 6 && lockedCards.size() == 0){
+            System.out.println("First Card Locked");
+            lockedCards.add(getCard(4));
+        }
+        if(playerRobot.Health < 5 && lockedCards.size() == 1){
+            System.out.println("Second Card Locked");
+            lockedCards.add(getCard(3));
+        }
+        if(playerRobot.Health < 4 && lockedCards.size() == 2){
+            System.out.println("Third Card Locked");
+            lockedCards.add(getCard(2));
+        }
+        if(playerRobot.Health < 3 && lockedCards.size() == 3){
+            System.out.println("Fourth Card Locked");
+            lockedCards.add(getCard(1));
+        }
+        if(playerRobot.Health < 2 && lockedCards.size() == 4){
+            System.out.println("Last Card Locked");
+            lockedCards.add(getCard(0));
         }
         for (Card c : lockedCards){
             hand.remove(c);
@@ -121,7 +137,7 @@ class Player {
                 if(cardInputs.inputs.contains(selectedCard)){
                     cardInputs.inputs.remove(cardInputs.inputs.indexOf(selectedCard));
                 }else{
-                    if(cardInputs.inputs.size() >= 5-damage){
+                    if(cardInputs.inputs.size() >= 5-lockedCards.size()){
                         cardInputs.inputs.remove(cardInputs.inputs.size()-1);
                     }
                     cardInputs.inputs.add(selectedCard);
