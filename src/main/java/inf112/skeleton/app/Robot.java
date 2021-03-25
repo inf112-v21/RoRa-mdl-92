@@ -66,6 +66,7 @@ public class Robot {
 
     public void respawn(List<Player> players){
         boolean overlap = false;
+        timeOut = false;
         for(Player player : players){
             if(player.playerRobot == this){
                 break;
