@@ -88,13 +88,24 @@ public class Robot {
         timeOut = false;
     }
 
-    public void moveForward(){
-        switch (d){
-            case UP: posY++; break;
-            case DOWN: posY--; break;
-            case RIGHT: posX++; break;
-            case LEFT: posX--; break;
-            default: break;
+    public void moveForward(Board board){
+        if (board.CanGo(d, new Coordinate(posX, posY))) {
+            switch (d) {
+                case UP:
+                    posY++;
+                    break;
+                case DOWN:
+                    posY--;
+                    break;
+                case RIGHT:
+                    posX++;
+                    break;
+                case LEFT:
+                    posX--;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -128,18 +139,24 @@ public class Robot {
         }
     }
 
-    public void moveBackwards(){
-        if(d == Direction.UP){
-            posY--;
+    public void moveBackwards(Board board){
+        Direction reverse = d;
+        switch (d){
+            case UP: reverse = Direction.DOWN; break;
+            case DOWN: reverse = Direction.UP; break;
+            case LEFT: reverse = Direction.RIGHT; break;
+            case RIGHT: reverse = Direction.LEFT; break;
         }
-        else if(d == Direction.LEFT){
-            posX++;
-        }
-        else if(d == Direction.RIGHT){
-            posX--;
-        }
-        else if(d == Direction.DOWN){
-            posY++;
+        if (board.CanGo(reverse, new Coordinate(posX, posY))) {
+            if (d == Direction.UP) {
+                posY--;
+            } else if (d == Direction.LEFT) {
+                posX++;
+            } else if (d == Direction.RIGHT) {
+                posX--;
+            } else if (d == Direction.DOWN) {
+                posY++;
+            }
         }
     }
 }

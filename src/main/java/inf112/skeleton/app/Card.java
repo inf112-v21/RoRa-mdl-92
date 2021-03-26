@@ -39,9 +39,7 @@ class Move1Card extends Card{
     }
     @Override
     void DoAction(Robot me, Board board) {
-        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-            me.moveForward();
-        }
+            me.moveForward(board);
     }
 }
 
@@ -52,12 +50,8 @@ class Move2Card extends Card{
     }
     @Override
     void DoAction(Robot me, Board board) {
-        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-            me.moveForward();
-            if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-                me.moveForward();
-            }
-        }
+        me.moveForward(board);
+        me.moveForward(board);
     }
 }
 class Move3Card extends Card{
@@ -67,15 +61,9 @@ class Move3Card extends Card{
     }
     @Override
     void DoAction(Robot me, Board board) {
-        if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-            me.moveForward();
-            if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-                me.moveForward();
-                if (board.CanGo(me.d, new Coordinate(me.posX, me.posY))) {
-                    me.moveForward();
-                }
-            }
-        }
+        me.moveForward(board);
+        me.moveForward(board);
+        me.moveForward(board);
     }
 }
 
@@ -86,16 +74,7 @@ class MoveBackCard extends Card{
     }
     @Override
     void DoAction(Robot me, Board board) {
-        Direction reverse = me.d;
-        switch (me.d){
-            case UP: reverse = Direction.DOWN; break;
-            case DOWN: reverse = Direction.UP; break;
-            case LEFT: reverse = Direction.RIGHT; break;
-            case RIGHT: reverse = Direction.LEFT; break;
-        }
-        if (board.CanGo(reverse, new Coordinate(me.posX, me.posY))) {
-            me.moveBackwards();
-        }
+            me.moveBackwards(board);
     }
 }
 
