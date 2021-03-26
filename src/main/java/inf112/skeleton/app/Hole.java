@@ -15,4 +15,6 @@ public class Hole {
         me.takeDamage(10);
         System.out.println("fell in hole");
     }
+
+
 }
