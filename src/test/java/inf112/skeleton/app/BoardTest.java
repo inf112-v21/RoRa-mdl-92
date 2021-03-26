@@ -138,4 +138,23 @@ public class BoardTest {
 
         assertTrue(testSubject.posX == 1 && testSubject.posY == 0 && testSubject.d == Direction.UP);
     }
+
+    @Test
+    public void LaserDoesDamage(){
+        testSubject.posX = 0;
+        testSubject.posY = 0;
+
+        Robot otherRobot = new Robot(0,0, null);
+        board.robots.add(otherRobot);
+
+        otherRobot.posX = 1;
+        otherRobot.posY = 0;
+
+        board.lasers.add(new LaserShooter(Direction.RIGHT, new Coordinate(-1, 0), 1));
+
+        board.FireLasers();
+
+        assertTrue(testSubject.Health == 9);
+        assertTrue(otherRobot.Health == 10);
+    }
 }
