@@ -194,10 +194,10 @@ public class Game implements ApplicationListener {
         playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
         playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
         if(nrOfPlayers > 2){
-            playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+            playerList.add(new Player(new Robot(0,11, new Sprite(new Texture("src/assets/robot1.png")))));
         }
         if(nrOfPlayers > 3){
-            playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+            playerList.add(new Player(new Robot(11,0, new Sprite(new Texture("src/assets/robot1.png")))));
         }
 
         CreateCardLibrary();

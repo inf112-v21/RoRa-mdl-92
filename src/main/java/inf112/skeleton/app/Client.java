@@ -152,6 +152,12 @@ class Host extends NetworkComponent{
                 System.out.println("CONNECTED player: " + Integer.toString(i+1));
                 sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
                 sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
+                try{
+                    TimeUnit.MILLISECONDS.sleep(100);
+                }
+                catch (InterruptedException s){
+
+                }
                 sendString(String.valueOf(nrOfPlayers), sockets.get(sockets.size()-1)); // send number of players
             }
 
