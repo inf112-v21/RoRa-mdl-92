@@ -29,7 +29,7 @@ abstract class Card {
     public void draw(SpriteBatch s,int x, int y){
         s.draw(cardSprites.get(cardSprite).getTexture(),x,y);
     }
-    abstract void DoAction(Robot me, Board board);
+    abstract  void DoAction(Robot me, Board board);
 }
 
 class Move1Card extends Card{
