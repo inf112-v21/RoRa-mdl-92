@@ -148,7 +148,7 @@ public class Game implements ApplicationListener {
     public void create() {
         //debug/test kode
         Scanner scanner = new Scanner(System.in);
-        System.out.println("select mode, 1 for singel player, 2 for multiplayer");
+        System.out.println("select mode, 1 for single player, 2 for multiplayer");
         if(scanner.nextInt() == 2){
             isOnline = true;
         }

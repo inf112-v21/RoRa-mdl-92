@@ -12,9 +12,7 @@ import java.util.List;
 
 public class Robot {
     public int Health = 10;
-    public boolean initialDeathStatus=false;
     public Sprite sprite;
-    public int initialCheckpoint=0;
 
     public int posX=0;
     public int posY=0;
