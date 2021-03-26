@@ -230,11 +230,8 @@ public class Board {
                 r.posY = next.y;
                 for(ConveyorBelt b: belts){
                     if(b.pos.equals(next)){
-                        switch (CompareDir(here.dir, b.dir)){
-                            case LEFT: r.turnLeft();
-                            case RIGHT: r.turnRight();
-                            default: break;
-                        }
+                        if(CompareDir(here.dir, b.dir) == Direction.LEFT){ r.turnLeft();}
+                        if(CompareDir(here.dir, b.dir) == Direction.RIGHT){ r.turnRight();}
                     }
                 }
             }
