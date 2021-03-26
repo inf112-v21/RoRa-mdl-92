@@ -83,11 +83,13 @@ class Client extends NetworkComponent {
     private Socket socket = null;
     private int playerNr = 0;
     private long seed = 0;
+    private int nrOfPlayers = 0;
     Client(String ip, int port)  {
         try{
             socket = new Socket(ip,port);
             playerNr = Integer.parseInt(receiveString(socket));
             seed = Long.valueOf(receiveString(socket));
+            nrOfPlayers = Integer.valueOf(receiveString(socket));
         }
         catch(IOException i){
             System.out.print(i);
@@ -110,6 +112,11 @@ class Client extends NetworkComponent {
         return seed;
     }
 
+    /**
+     * gets the number of players that will play
+     * @return seed
+     */
+    public int getNrOfPlayers(){return nrOfPlayers;}
     @Override
     ArrayList<playerInputs> communicateToPlayers(playerInputs inputs) {
         String s = receiveString(socket); // wait for confirmation
@@ -145,6 +152,7 @@ class Host extends NetworkComponent{
                 System.out.println("CONNECTED player: " + Integer.toString(i+1));
                 sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
                 sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
+                sendString(String.valueOf(nrOfPlayers), sockets.get(sockets.size()-1)); // send number of players
             }
 
         }

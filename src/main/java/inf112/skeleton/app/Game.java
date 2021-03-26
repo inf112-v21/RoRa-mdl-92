@@ -153,15 +153,20 @@ public class Game implements ApplicationListener {
             isOnline = true;
         }
         long seed = System.currentTimeMillis();
+        int nrOfPlayers = 2;
         if(isOnline){
             System.out.println("press 1 for host, 2 for client");
             if(scanner.nextInt() == 1){
                 System.out.println("enter Port");
                 scanner.nextLine();
                 int port = scanner.nextInt();
-                System.out.println("enter number of players (excluding the host player)");
-                int nrOfPLayers = scanner.nextInt();
-                networkComponent = new Host(port, seed, nrOfPLayers);
+                System.out.println("enter number of players (excluding the host player) max 3");
+                nrOfPlayers = scanner.nextInt();
+                if(nrOfPlayers > 3){
+                    nrOfPlayers = 3;
+                }
+                networkComponent = new Host(port, seed, nrOfPlayers);
+                nrOfPlayers++;
             }
             else {
                 System.out.println("enter host IP");
@@ -173,6 +178,7 @@ public class Game implements ApplicationListener {
                 Client c = (Client)networkComponent;
                 currentUser = c.getPlayerNr();
                 seed = c.getSeed();
+                nrOfPlayers = c.getNrOfPlayers() +1;
             }
         }
         System.out.println(seed);
@@ -187,6 +193,12 @@ public class Game implements ApplicationListener {
         flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
         playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
         playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        if(nrOfPlayers > 2){
+            playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        }
+        if(nrOfPlayers > 3){
+            playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        }
 
         CreateCardLibrary();
         cards = cardLibrary;
