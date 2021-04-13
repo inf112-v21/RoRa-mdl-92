@@ -36,9 +36,14 @@ public class Game implements ApplicationListener {
     public Flag flag = null;
     public Board board = new Board();
 
+    float turnTime = 0;
+    boolean turnOngoing = false;
+
 
 
     public void DoTurn() {
+        turnTime = 0;
+        turnOngoing = true;
         turn += 1;
         if(isOnline){
             //get inputs from other players
@@ -58,25 +63,51 @@ public class Game implements ApplicationListener {
             }
         }
 
-
-        /* Testing HandleProgram
-        //Deal Cards to players.
-        for(Player p: playerList){
-            //Player.takeCards(this);
-            while(p.canPlayCard()){
-                p.playCard();
-            }
-        }
-         */
-
         for(int i = 0; i < 5; i++){
             HandleProgram(i);
-            board.ExpressBeltMove();
-            board.BeltMove();
-            board.PusherMove();
-            board.WheelRotate();
-            board.HoleFall();
-            board.FireLasers();
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.ExpressBeltMove();
+                }
+            },turnTime);
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.BeltMove();
+                }
+            }, turnTime);
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.PusherMove();
+                }
+            }, turnTime);
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.WheelRotate();
+                }
+            }, turnTime);
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.HoleFall();
+                }
+            }, turnTime);
+            turnTime += .05f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    board.FireLasers();
+                }
+            }, turnTime);
+            turnTime += .05f;
         }
 
         //checks if a robot is on the flag
@@ -87,26 +118,31 @@ public class Game implements ApplicationListener {
         }
 
 
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                //returns the cards from the player to the deck
+                for(Player p : playerList){
+                    if(p.playerRobot.timeOut){
+                        discard.addAll(p.lockedCards);
+                        p.lockedCards.clear();
+                        p.playerRobot.respawn(playerList);
+                    }
+                    p.LockCards();
 
-        //returns the cards from the player to the deck
-        for(Player p : playerList){
-            if(p.playerRobot.timeOut){
-                discard.addAll(p.lockedCards);
-                p.lockedCards.clear();
-                p.playerRobot.respawn(playerList);
+                    discard.addAll(p.hand);
+                    p.cardInputs.inputs.clear();
+                    p.hand.clear();
+                }
+                //hands new cards to the players
+                for(Player p : playerList){
+                    for(int i = 1; i < p.playerRobot.Health; i++){
+                        p.hand.add(DealCard());
+                    }
+                }
+                turnOngoing = false;
             }
-            p.LockCards();
-
-            discard.addAll(p.hand);
-            p.cardInputs.inputs.clear();
-            p.hand.clear();
-        }
-        //hands new cards to the players
-        for(Player p : playerList){
-            for(int i = 1; i < p.playerRobot.Health; i++){
-                p.hand.add(DealCard());
-            }
-        }
+        }, turnTime);
     }
 
     public void HandleProgram(int _phase){
@@ -120,7 +156,17 @@ public class Game implements ApplicationListener {
         });
 
         for(int i = 0; i < actionOrder.size(); i++){
-            actionOrder.get(i).getCard(_phase, rand).DoAction(actionOrder.get(i).playerRobot, board);
+            int temp = i;
+            turnTime += .25f;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    actionOrder.get(temp).getCard(_phase, rand).DoAction(actionOrder.get(temp).playerRobot, board);
+
+                }
+            }, turnTime);
+
+
         }
     }
 
@@ -275,9 +321,11 @@ public class Game implements ApplicationListener {
 
     // a class to read inputs from the application user
     class InputReader implements InputProcessor{
-
         @Override
         public boolean keyDown(int i) {
+            if(turnOngoing){
+                return false;
+            }
             if(i == 44){
                 DoTurn();
             }
@@ -310,6 +358,9 @@ public class Game implements ApplicationListener {
 
         @Override
         public boolean touchUp(int i, int i1, int i2, int i3) {
+            if(turnOngoing){
+                return false;
+            }
             playerList.get(currentUser).touchUp();
             return true;
         }
