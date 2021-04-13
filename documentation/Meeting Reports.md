@@ -144,3 +144,13 @@ went trough and wrote some points on the obligatory assignment 3
 began writing some tests and better comments on the code
 
 tried to eliminate some of the new bugs
+
+
+07/04/2021 Time (12:15 - 13:35)
+started looking at obligatory assignment 4
+
+wrote down some tasks we wanted to have completed for the final assignment
+
+devided up some of those tasks that we should work on for next week
+
+
