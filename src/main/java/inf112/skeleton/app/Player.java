@@ -29,7 +29,7 @@ class Player {
             return lockedCards.get(4-_phase);
         }else{
             int newInt;
-            while(cardInputs.inputs.size()-1<= _phase){
+            while(cardInputs.inputs.size()<= _phase){
                 newInt = rand.nextInt(hand.size());
                 if (!(cardInputs.inputs.contains(newInt))){
                     cardInputs.inputs.add(newInt);
