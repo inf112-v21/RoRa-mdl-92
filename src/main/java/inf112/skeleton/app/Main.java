@@ -13,6 +13,8 @@ public class Main {
 
         new Lwjgl3Application(new Game(), cfg);
 
+        // Main menu testing
+        //new Lwjgl3Application(new RoboRallyGame(), cfg);
 
     }
 }

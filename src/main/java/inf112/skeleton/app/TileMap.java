@@ -46,16 +46,25 @@ public class TileMap{
 
         // Reading map layers (not used)
         MapLayers mapLayers = map.getLayers();
-        terrainLayer = (TiledMapTileLayer) mapLayers.get("Ground Floor");
+        terrainLayer = (TiledMapTileLayer) mapLayers.get("GroundFloor");
         decorationLayersIndices = new int[]{
-                mapLayers.getIndex("Lasers"),
+                mapLayers.getIndex("Laser"),
                 mapLayers.getIndex("Battery"),
-                mapLayers.getIndex("Left Cogs"),
-                mapLayers.getIndex("Right Cogs"),
-                mapLayers.getIndex("Walls"),
-                mapLayers.getIndex("Express Conveyor Belts"),
-                mapLayers.getIndex("Conveyor Belts"),
+                mapLayers.getIndex("LeftCogs"),
+                mapLayers.getIndex("RightCogs"),
+                mapLayers.getIndex("WallUp"),
+                mapLayers.getIndex("WallDown"),
+                mapLayers.getIndex("WallRight"),
+                mapLayers.getIndex("WallLeft"),
+                mapLayers.getIndex("ExpressConveyorBeltUp"),
+                mapLayers.getIndex("ExpressConveyorBeltDown"),
+                mapLayers.getIndex("ExpressConveyorBeltLeft"),
+                mapLayers.getIndex("ConveyorBeltUp"),
+                mapLayers.getIndex("ConveyorBeltDown"),
+                mapLayers.getIndex("ConveyorBeltLeft"),
+                mapLayers.getIndex("ConveyorBeltRight"),
                 mapLayers.getIndex("Holes"),
+                mapLayers.getIndex("Spawn"),
         };
 
     }
