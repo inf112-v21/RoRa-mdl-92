@@ -154,3 +154,16 @@ wrote down some tasks we wanted to have completed for the final assignment
 devided up some of those tasks that we should work on for next week
 
 
+
+07/04/2021 Time (12:15 - 13:20)
+catched up on what everyone have gotten done the last week
+
+finalized the last tasks that needed to get done for the final assignment 
+- add more commentsk, docstrings and tess
+- add a main menu screen
+- make it so all map data gets loaded from the tilemap
+- make it so flags function how they are supposed to
+
+devided up those remaining tasks between us
+
+ola was not present at this meeting
