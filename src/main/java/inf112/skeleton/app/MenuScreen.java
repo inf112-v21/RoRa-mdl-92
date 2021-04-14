@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,13 +30,13 @@ public class MenuScreen implements Screen {
     private Stage stage;
 
     //Graphics
+    private final Object TextureAtlas;
     private SpriteBatch batch;
     private Texture background;
-    private Texture play_Button;
-    private Texture exit_Button;
     private Skin skin;
     private TextButton playButton;
     private TextButton exitButton;
+    private TextureAtlas dropdownAtlas;
 
 
     //Screen parameters
@@ -43,32 +44,34 @@ public class MenuScreen implements Screen {
     private final int SCREEN_HEIGHT = 1000;
 
     public MenuScreen(){
+        // initialize stage with given skin asset
         stage = new Stage();
+        batch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
-
-        skin = new Skin(Gdx.files.internal("src/assets/uiskin.json"));
-
-        playButton = new TextButton("PLAY", skin);
-        playButton.setPosition(600,500);
-        playButton.setSize(300,60);
-
-
-        stage.addActor(playButton);
-
-
-
-
-        //
+        shapeRenderer = new ShapeRenderer();
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
+        TextureAtlas = dropdownAtlas = new
+                TextureAtlas(Gdx.files.internal("src/assets/GDX_SKIN/craftacular/skin/craftacular-ui.atlas"));
+        skin = new
+                Skin(Gdx.files.internal("src/assets/GDX_SKIN/craftacular/skin/craftacular-ui.json"), dropdownAtlas);
+
+
+        // textures
         background = new Texture("src/assets/game_menu.png");
-        play_Button = new Texture("src/assets/play_Button.png");
-        exit_Button = new Texture("src/assets/exit_Button.png");
 
-        batch = new SpriteBatch();
+        // Textbuttons
+        playButton = new TextButton("PLAY", skin);
+        playButton.setPosition(400,600);
+        playButton.setSize(400,100);
 
-        shapeRenderer = new ShapeRenderer();
+        exitButton = new TextButton("EXIT", skin);
+        exitButton.setPosition(400,400);
+        exitButton.setSize(400,100);
 
+        // Adding actors (buttons) to the stage
+        stage.addActor(playButton);
+        stage.addActor(exitButton);
     }
 
     @Override
@@ -79,24 +82,18 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float v) {
         //clear screen
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+        // adding background image before stage is called
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        stage.getBatch().end();
+
+        // calling the stage
         stage.draw();
-
-        /*Start rendering
-        batch.begin();
-
-        batch.draw(background,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-
-        batch.draw(play_Button,600,500, 200, 100);
-
-
-        batch.end();
-
-         */
     }
-
+    // Handles input from user when clicking buttons
     public void handleInput(){
 
     }
