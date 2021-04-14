@@ -25,12 +25,13 @@ class Player {
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
     public Card getCard(int _phase, Random rand){
+        if(cardInputs.shutDown){return null;} // don't play card when shutdown
         if((lockedCards.size()) > 4-_phase){
             return lockedCards.get(4-_phase);
         }else{
             int newInt;
             while(cardInputs.inputs.size()<= _phase){
-                newInt = rand.nextInt(hand.size());
+                newInt = rand.nextInt(hand.size()); // har allerede valgt alle kortene i honden din, går inn i uendelig loop
                 if (!(cardInputs.inputs.contains(newInt))){
                     cardInputs.inputs.add(newInt);
                 }
@@ -109,6 +110,42 @@ class Player {
                 yPos = 0;
             }
         }
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        if(Gdx.input.getX() > 1100  && Gdx.input.getX() < 1200 &&
+                1000-  Gdx.input.getY() < 980 &&
+                1000-  Gdx.input.getY() > 880){
+
+            shapeRenderer.rect(1100, 880, 100, 100, Color.GOLD, Color.GOLD, Color.GOLD, Color.GOLD);
+
+        }
+        else{
+            shapeRenderer.rect(1100, 880, 100, 100, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+        }
+        shapeRenderer.end();
+        s.begin();
+        font.setColor(Color.BLACK);
+        font.draw(s,"Shut Down",1110,950);
+        if(cardInputs.shutDown){
+            font.setColor(Color.GREEN);
+            font.getData().setScale(1.5f);
+            font.draw(s,"X",1100,970);
+            font.getData().setScale(1f);
+        }
+        s.end();
+        for(Card c : lockedCards){
+            s.begin();
+            c.draw(s,xPos,yPos);
+            font.draw(s,Integer.toString(c.priority),xPos+45,yPos+125);
+            font.setColor(Color.GREEN);
+            font.draw(s,"LOCKED",xPos+20,yPos+50);
+            font.setColor(Color.WHITE);
+            s.end();
+            yPos += 140;
+            if(yPos > 900){
+                xPos += 100;
+                yPos = 0;
+            }
+        }
         s.begin();
         font.setColor(Color.GREEN);
         font.getData().setScale(2);
@@ -150,7 +187,19 @@ class Player {
                         cardInputs.inputs.remove(cardInputs.inputs.size()-1);
                     }
                     cardInputs.inputs.add(selectedCard);
+                    cardInputs.shutDown = false;
                 }
+            }
+        }
+        if (Gdx.input.getX() > 1100  && Gdx.input.getX() < 1200 &&
+                1000-  Gdx.input.getY() < 980 &&
+                1000-  Gdx.input.getY() > 880){
+            if(cardInputs.shutDown){
+                cardInputs.shutDown = false;
+            }
+            else{
+                cardInputs.inputs.clear();
+                cardInputs.shutDown = true;
             }
         }
         return true;

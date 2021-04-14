@@ -151,7 +151,10 @@ public class Game implements ApplicationListener {
         Collections.sort(actionOrder, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
-                return o1.getCard(_phase, rand).priority-o2.getCard(_phase, rand).priority;
+                Card c1 = o1.getCard(_phase, rand);
+                Card c2 = o2.getCard(_phase, rand);
+                if(c1 == null || c2 == null){return 0; }
+                return c1.priority-c2.priority;
             }
         });
 
@@ -161,12 +164,13 @@ public class Game implements ApplicationListener {
             com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
                 @Override
                 public void run() {
-                    actionOrder.get(temp).getCard(_phase, rand).DoAction(actionOrder.get(temp).playerRobot, board);
+                    Card c = actionOrder.get(temp).getCard(_phase, rand);
+                    if(c != null){
+                        c.DoAction(actionOrder.get(temp).playerRobot, board);
+                    }
 
                 }
             }, turnTime);
-
-
         }
     }
 
@@ -252,7 +256,7 @@ public class Game implements ApplicationListener {
         // add dummy cards to players hand
         for(Player p : playerList){
             board.robots.add(p.playerRobot); //Adds the robots to the board for collision tracking.
-            for(int i = 0; i < 10; i++){
+            for(int i = 0; i < 9; i++){
                 p.hand.add(DealCard());
             }
         }
@@ -321,6 +325,7 @@ public class Game implements ApplicationListener {
 
     // a class to read inputs from the application user
     class InputReader implements InputProcessor{
+
         @Override
         public boolean keyDown(int i) {
             if(turnOngoing){

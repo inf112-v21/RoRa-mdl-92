@@ -114,9 +114,11 @@ class Client extends NetworkComponent {
 
     /**
      * gets the number of players that will play
-     * @return seed
+     * @return nr of players
      */
     public int getNrOfPlayers(){return nrOfPlayers;}
+
+
     @Override
     ArrayList<playerInputs> communicateToPlayers(playerInputs inputs) {
         String s = receiveString(socket); // wait for confirmation
@@ -191,14 +193,20 @@ class Host extends NetworkComponent{
            playerToCheck++;
         }
         for(int i = 0; i < sockets.size();i++){ // sending all inputs back to each player
-            sendString(Integer.toString(pInputs.size()),sockets.get(i));
-            sendInputs(inputs,sockets.get(i)); // send host inputs
-            for(int j = 0; j < pInputs.size(); j++){
-                if(i != j){ // not to send the inputs back to its owner
-                    sendInputs(pInputs.get(j),sockets.get(i));
+            try {
+                sendString(Integer.toString(pInputs.size()),sockets.get(i));
+                TimeUnit.MILLISECONDS.sleep(30);
+                sendInputs(inputs,sockets.get(i)); // send host inputs
+                TimeUnit.MILLISECONDS.sleep(30);
+                for(int j = 0; j < pInputs.size(); j++){
+                    if(i != j){ // not to send the inputs back to its owner
+                        sendInputs(pInputs.get(j),sockets.get(i));
+                        TimeUnit.MILLISECONDS.sleep(30);
+                    }
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
         }
 
         return pInputs;
