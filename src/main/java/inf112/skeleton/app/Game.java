@@ -39,7 +39,88 @@ public class Game implements ApplicationListener {
     float turnTime = 0;
     boolean turnOngoing = false;
 
+    public Game(boolean isOnline_, int nrOfPlayers_, int Port, String IP){
 
+        isOnline = isOnline_;
+        long seed = System.currentTimeMillis();
+        int nrOfPlayers = 2;
+        if(isOnline){
+            if(IP == null){
+                int port = Port;
+                nrOfPlayers = nrOfPlayers_;
+                if(nrOfPlayers > 3){
+                    nrOfPlayers = 3;
+                }
+                networkComponent = new Host(port, seed, nrOfPlayers);
+                nrOfPlayers++;
+            }
+            else {
+                String ip = IP;
+                int port = Port;
+                networkComponent = new Client(ip,port);
+                Client c = (Client)networkComponent;
+                currentUser = c.getPlayerNr();
+                seed = c.getSeed();
+                nrOfPlayers = c.getNrOfPlayers() +1;
+            }
+        }
+        System.out.println(seed);
+        rand.setSeed(seed);
+
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        shapeRenderer = new ShapeRenderer();
+        InputReader inputReader = new InputReader();
+        gameBoard = new TileMap();
+        flag = new Flag(5,5);
+        flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
+        playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
+        playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        if(nrOfPlayers > 2){
+            playerList.add(new Player(new Robot(0,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        }
+        if(nrOfPlayers > 3){
+            playerList.add(new Player(new Robot(11,0, new Sprite(new Texture("src/assets/robot1.png")))));
+        }
+
+        CreateCardLibrary();
+        cards = cardLibrary;
+
+        // add dummy cards to players hand
+        for(Player p : playerList){
+            board.robots.add(p.playerRobot); //Adds the robots to the board for collision tracking.
+            for(int i = 0; i < 9; i++){
+                p.hand.add(DealCard());
+            }
+        }
+
+        Gdx.input.setInputProcessor(inputReader);
+
+    }
+
+    private void CreateCardLibrary(){
+        for(int i = 490; i <= 650; i += 10){
+            cardLibrary.add(new Move1Card(i));
+        }
+        for(int i = 660; i <= 780; i += 10){
+            cardLibrary.add(new Move2Card(i));
+        }
+        for(int i = 790; i <= 840; i += 10){
+            cardLibrary.add(new Move3Card(i));
+        }
+        for(int i = 430; i <= 480; i += 10){
+            cardLibrary.add(new MoveBackCard(i));
+        }
+        for(int i = 70; i <= 410; i += 20){
+            cardLibrary.add(new TurnLeftCard(i));
+        }
+        for(int i = 80; i <= 420; i += 20){
+            cardLibrary.add(new TurnRightCard(i));
+        }
+        for(int i = 10; i <= 60; i += 10){
+            cardLibrary.add(new UTurnCard(i));
+        }
+    }
 
     public void DoTurn() {
         turnTime = 0;
@@ -135,7 +216,11 @@ public class Game implements ApplicationListener {
                     p.hand.clear();
                 }
                 //hands new cards to the players
+
                 for(Player p : playerList){
+                    if(p.cardInputs.shutDown){
+                        p.playerRobot.Health = 10;
+                    }
                     for(int i = 1; i < p.playerRobot.Health; i++){
                         p.hand.add(DealCard());
                     }
@@ -196,97 +281,7 @@ public class Game implements ApplicationListener {
     // overrides from application listener
     @Override
     public void create() {
-        //debug/test kode
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("select mode, 1 for single player, 2 for multiplayer");
-        if(scanner.nextInt() == 2){
-            isOnline = true;
-        }
-        long seed = System.currentTimeMillis();
-        int nrOfPlayers = 2;
-        if(isOnline){
-            System.out.println("press 1 for host, 2 for client");
-            if(scanner.nextInt() == 1){
-                System.out.println("enter Port");
-                scanner.nextLine();
-                int port = scanner.nextInt();
-                System.out.println("enter number of players (excluding the host player) max 3");
-                nrOfPlayers = scanner.nextInt();
-                if(nrOfPlayers > 3){
-                    nrOfPlayers = 3;
-                }
-                networkComponent = new Host(port, seed, nrOfPlayers);
-                nrOfPlayers++;
-            }
-            else {
-                System.out.println("enter host IP");
-                scanner.nextLine();
-                String ip = scanner.nextLine();
-                System.out.println("enter host Port");
-                int port = scanner.nextInt();
-                networkComponent = new Client(ip,port);
-                Client c = (Client)networkComponent;
-                currentUser = c.getPlayerNr();
-                seed = c.getSeed();
-                nrOfPlayers = c.getNrOfPlayers() +1;
-            }
-        }
-        System.out.println(seed);
-        rand.setSeed(seed);
 
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-        shapeRenderer = new ShapeRenderer();
-        InputReader inputReader = new InputReader();
-        gameBoard = new TileMap();
-        flag = new Flag(5,5);
-        flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
-        playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
-        playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
-        if(nrOfPlayers > 2){
-            playerList.add(new Player(new Robot(0,11, new Sprite(new Texture("src/assets/robot1.png")))));
-        }
-        if(nrOfPlayers > 3){
-            playerList.add(new Player(new Robot(11,0, new Sprite(new Texture("src/assets/robot1.png")))));
-        }
-
-        CreateCardLibrary();
-        cards = cardLibrary;
-
-        // add dummy cards to players hand
-        for(Player p : playerList){
-            board.robots.add(p.playerRobot); //Adds the robots to the board for collision tracking.
-            for(int i = 0; i < 9; i++){
-                p.hand.add(DealCard());
-            }
-        }
-
-        Gdx.input.setInputProcessor(inputReader);
-
-    }
-
-    private void CreateCardLibrary(){
-        for(int i = 490; i <= 650; i += 10){
-            cardLibrary.add(new Move1Card(i));
-        }
-        for(int i = 660; i <= 780; i += 10){
-            cardLibrary.add(new Move2Card(i));
-        }
-        for(int i = 790; i <= 840; i += 10){
-            cardLibrary.add(new Move3Card(i));
-        }
-        for(int i = 430; i <= 480; i += 10){
-            cardLibrary.add(new MoveBackCard(i));
-        }
-        for(int i = 70; i <= 410; i += 20){
-            cardLibrary.add(new TurnLeftCard(i));
-        }
-        for(int i = 80; i <= 420; i += 20){
-            cardLibrary.add(new TurnRightCard(i));
-        }
-        for(int i = 10; i <= 60; i += 10){
-            cardLibrary.add(new UTurnCard(i));
-        }
     }
 
     @Override

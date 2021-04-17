@@ -222,7 +222,7 @@ public class Board {
                 }
             }
             if (here == null){
-                return;
+                continue;
             }
             if (CanGo(here.dir, here.pos)){
                 Coordinate next = here.pos.Step(here.dir);
@@ -275,7 +275,7 @@ public class Board {
                 }
             }
             if (here == null){
-                return;
+                continue;
             }
             if (CanGo(here.dir, here.pos)){
                 Coordinate next = here.pos.Step(here.dir);
@@ -306,7 +306,7 @@ public class Board {
                 }
             }
             if (here == null){
-                return;
+                continue;
             }
             if (CanGo(here.dir, here.target)) {
                 Coordinate next = here.target.Step(here.dir);

@@ -11,10 +11,10 @@ public class Main {
         cfg.setTitle("Robo Rally");
         cfg.setWindowedMode(1200, 1000);
 
-        new Lwjgl3Application(new Game(), cfg);
+        //new Lwjgl3Application(new Game(), cfg);
 
         // Main menu testing
-        //new Lwjgl3Application(new RoboRallyGame(), cfg);
+        new Lwjgl3Application(new RoboRallyGame(), cfg);
 
     }
 }
