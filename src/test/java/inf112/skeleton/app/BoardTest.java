@@ -11,7 +11,8 @@ public class BoardTest {
 
     @Before
     public void Setup(){
-        board = new Board();
+        TileMap t = new TileMap();
+        board = new Board(t);
         testSubject = new Robot(0,0, null);
         board.robots.add(testSubject);
 

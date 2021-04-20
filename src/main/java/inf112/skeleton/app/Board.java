@@ -12,12 +12,13 @@ public class Board {
     Collection<CogWheel> cogWheels;
     Collection<Hole> hole;
     Collection<LaserShooter> lasers;
-    int maxX = 11;
+    public ArrayList<Coordinate> spawns;
+    int maxX = 15;
     int maxY = 11;
     int minX = 0;
     int minY = 0;
 
-    public Board(){
+    public Board(TileMap tileMap){
         robots = new ArrayList<Robot>();
         walls = new ArrayList<Wall>();
         belts = new ArrayList<ConveyorBelt>();
@@ -26,111 +27,76 @@ public class Board {
         cogWheels = new ArrayList<CogWheel>();
         hole = new ArrayList<Hole>();
         lasers = new ArrayList<>();
+        spawns = new ArrayList<Coordinate>();
 
-        //Hardcoded default map
-        walls.add(new Wall(0, 2,false, false, false, true));
-        walls.add(new Wall(0, 4,false, false, false, true));
-        walls.add(new Wall(0, 7,false, false, false, true));
-        walls.add(new Wall(0, 9,false, false, false, true));
-        walls.add(new Wall(1, 1,false, true, false, true));
-        walls.add(new Wall(2, 0,false, false, true, false));
-        walls.add(new Wall(2, 3,false, true, false, false));
-        walls.add(new Wall(2, 4,false, false, true, false));
-        walls.add(new Wall(2, 9,true, false, false, false));
-        walls.add(new Wall(2, 10,false, true, false, false));
-        walls.add(new Wall(2, 11,true, false, false, false));
-        walls.add(new Wall(4, 0,false, false, true, false));
-        walls.add(new Wall(4, 11,true, false, false, false));
-        walls.add(new Wall(5, 8,false, false, true, true));
-        walls.add(new Wall(5, 10,false, true, false, false));
-        walls.add(new Wall(6, 3,false, true, false, false));
-        walls.add(new Wall(6, 6,false, false, false, true));
-        walls.add(new Wall(7, 0,false, false, true, false));
-        walls.add(new Wall(7, 1,false, false, false, true));
-        walls.add(new Wall(7, 11,true, false, false, false));
-        walls.add(new Wall(8, 5,false, false, true, false));
-        walls.add(new Wall(8, 7,true, false, false, false));
-        walls.add(new Wall(9, 0,false, false, true, false));
-        walls.add(new Wall(9, 11,true, false, false, false));
-        walls.add(new Wall(10, 1,false, false, false, true));
-        walls.add(new Wall(10, 5,false, false, true, false));
-        walls.add(new Wall(11, 2,false, true, false, false));
-        walls.add(new Wall(11, 4,false, true, false, false));
-        walls.add(new Wall(11, 7,false, true, false, false));
-        walls.add(new Wall(11, 9,false, true, false, false));
 
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 11)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 10)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 9)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 8)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 7)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 6)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 5)));
-        express.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 4)));
-        express.add(new ConveyorBelt(Direction.LEFT, new Coordinate(4, 9)));
-        express.add(new ConveyorBelt(Direction.LEFT, new Coordinate(5, 9)));
-        express.add(new ConveyorBelt(Direction.DOWN, new Coordinate(5, 10)));
-        express.add(new ConveyorBelt(Direction.DOWN, new Coordinate(5, 11)));
+        for(Coordinate c : tileMap.getMapObjectLocations("WallRight")){
+            walls.add(new Wall(c.x, c.y,false, true, false, false));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("WallLeft")){
+            walls.add(new Wall(c.x, c.y,false, false, false, true));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("WallUp")){
+            walls.add(new Wall(c.x, c.y,true, false, false, false));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("WallDown")){
+            walls.add(new Wall(c.x, c.y,false, false, true, false));
+        }
+
+
+
+        for(Coordinate c : tileMap.getMapObjectLocations("ExpressConveyorBeltUp")){
+            express.add(new ConveyorBelt(Direction.UP, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ExpressConveyorBeltDown")){
+            express.add(new ConveyorBelt(Direction.DOWN, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ExpressConveyorBeltLeft")){
+            express.add(new ConveyorBelt(Direction.LEFT, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ExpressConveyorBeltRight")){
+            express.add(new ConveyorBelt(Direction.RIGHT, c));
+        }
 
         belts.addAll(express);
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(1, 0)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(1, 2)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(1, 3)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(1, 4)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(1, 5)));
-        belts.add(new ConveyorBelt(Direction.RIGHT, new Coordinate(0, 5)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(0, 6)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(1, 6)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 0)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 1)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(3, 2)));
-        belts.add(new ConveyorBelt(Direction.RIGHT, new Coordinate(5, 7)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(6, 4)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(6, 5)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(6, 6)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(6, 8)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(6, 9)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(6, 10)));
-        belts.add(new ConveyorBelt(Direction.UP, new Coordinate(6, 11)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(7, 6)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(9, 6)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(10, 6)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(11, 6)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(10, 10)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(11, 10)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(9, 10)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(9, 9)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 9)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 10)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 11)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 0)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 1)));
-        belts.add(new ConveyorBelt(Direction.DOWN, new Coordinate(8, 2)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(9, 3)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(10, 3)));
-        belts.add(new ConveyorBelt(Direction.LEFT, new Coordinate(11, 3)));
 
-        cogWheels.add(new CogWheelLeft(2,5));
-        cogWheels.add(new CogWheelLeft(5,3));
-        cogWheels.add(new CogWheelLeft(6,7));
-        cogWheels.add(new CogWheelLeft(8,3));
+        for(Coordinate c : tileMap.getMapObjectLocations("ConveyorBeltUp")){
+            belts.add(new ConveyorBelt(Direction.UP, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ConveyorBeltDown")){
+            belts.add(new ConveyorBelt(Direction.DOWN, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ConveyorBeltLeft")){
+            belts.add(new ConveyorBelt(Direction.LEFT, c));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("ConveyorBeltRight")){
+            belts.add(new ConveyorBelt(Direction.RIGHT, c));
+        }
 
-        cogWheels.add(new CogWheelRight(2,6));
-        cogWheels.add(new CogWheelRight(4,3));
-        cogWheels.add(new CogWheelRight(8,6));
+        for(Coordinate c : tileMap.getMapObjectLocations("LeftCogs")){
+            cogWheels.add(new CogWheelLeft(c.x,c.y));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("RightCogs")){
+            cogWheels.add(new CogWheelRight(c.x,c.y));
+        }
 
-        hole.add(new Hole (5,2));
-        hole.add(new Hole (9,2));
-        hole.add(new Hole (9,8));
-        hole.add(new Hole (7,5));
-        hole.add(new Hole (1,10));
+        for(Coordinate c : tileMap.getMapObjectLocations("Holes")){
+            hole.add(new Hole(c.x,c.y));
+        }
 
-        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(1,1), 3));
-        lasers.add(new LaserShooter(Direction.UP, new Coordinate(2,4), 1));
-        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(6,3), 2));
-        lasers.add(new LaserShooter(Direction.LEFT, new Coordinate(5,10), 1));
-        lasers.add(new LaserShooter(Direction.RIGHT, new Coordinate(7,1), 1));
-        lasers.add(new LaserShooter(Direction.UP, new Coordinate(8,5), 1));
+        for(Coordinate c : tileMap.getMapObjectLocations("Laser1")){
+            lasers.add(new LaserShooter(Direction.LEFT, c, 1));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("Laser2")){
+            lasers.add(new LaserShooter(Direction.LEFT, c, 2));
+        }
+        for(Coordinate c : tileMap.getMapObjectLocations("Laser3")){
+            lasers.add(new LaserShooter(Direction.LEFT, c, 3));
+        }
+
+        for(Coordinate c : tileMap.getMapObjectLocations("Spawn")){
+            spawns.add(c);
+        }
     }
 
     //A function to check is movement is valid in a direction, will also handle shoving.
@@ -316,7 +282,7 @@ public class Board {
         }
     }
 
-    public void FireLasers(){
+    /*public void FireLasers(){
         for(Robot r: robots){
             LaserCheck(r.d, new Coordinate(r.posX, r.posY), 1);
         }
@@ -331,6 +297,16 @@ public class Board {
                 target.takeDamage(l.str);
             }else{
                 LaserCheck(l.dir, l.pos, l.str);
+            }
+        }
+    }*/
+
+    public void FireLasers(){
+        for(Robot r: robots){
+            for(LaserShooter l: lasers){
+                if(l.pos.x == r.posX && l.pos.y == r.posY){
+                    r.takeDamage(l.str);
+                }
             }
         }
     }

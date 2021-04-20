@@ -6,12 +6,7 @@ import org.junit.Test;
 
 public class GameTest {
 
-    @Test
-    public void ShouldDoTurn() {
-        Game game = new Game(false,0,0,null);
-        game.DoTurn();
-        assertEquals(1, game.turn);
-    }
+
 
     @Test
     public void HoleShouldKill(){

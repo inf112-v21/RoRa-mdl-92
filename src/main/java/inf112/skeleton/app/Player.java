@@ -88,7 +88,7 @@ class Player {
 
     public void drawHand(SpriteBatch s,BitmapFont font, ShapeRenderer shapeRenderer){
         int yPos = 0;
-        int xPos = 1000;
+        int xPos = 1332;
         s.end();
         font.setColor(Color.WHITE);
         font.getData().setScale(1);
@@ -111,24 +111,24 @@ class Player {
             }
         }
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        if(Gdx.input.getX() > 1100  && Gdx.input.getX() < 1200 &&
+        if(Gdx.input.getX() > 1432  && Gdx.input.getX() < 1532 &&
                 1000-  Gdx.input.getY() < 980 &&
                 1000-  Gdx.input.getY() > 880){
 
-            shapeRenderer.rect(1100, 880, 100, 100, Color.GOLD, Color.GOLD, Color.GOLD, Color.GOLD);
+            shapeRenderer.rect(1432, 880, 100, 100, Color.GOLD, Color.GOLD, Color.GOLD, Color.GOLD);
 
         }
         else{
-            shapeRenderer.rect(1100, 880, 100, 100, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+            shapeRenderer.rect(1432, 880, 100, 100, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
         }
         shapeRenderer.end();
         s.begin();
         font.setColor(Color.BLACK);
-        font.draw(s,"Shut Down",1110,950);
+        font.draw(s,"Shut Down",1442,950);
         if(cardInputs.shutDown){
             font.setColor(Color.GREEN);
             font.getData().setScale(1.5f);
-            font.draw(s,"X",1100,970);
+            font.draw(s,"X",1432,970);
             font.getData().setScale(1f);
         }
         s.end();
@@ -150,7 +150,7 @@ class Player {
         font.setColor(Color.GREEN);
         font.getData().setScale(2);
         for(int i = 0;  i < cardInputs.inputs.size(); i++){
-            int x = 1010;
+            int x = 1342;
             int c = cardInputs.inputs.get(i);
             if(c > 6){
                 x += 100;
@@ -172,9 +172,9 @@ class Player {
     }
 
     public boolean touchUp() {
-        if(Gdx.input.getX() > 1000  && Gdx.input.getX() < 1200 && Gdx.input.getY() > 20){
+        if(Gdx.input.getX() > 1332  && Gdx.input.getX() < 1532 && Gdx.input.getY() > 20){
             int selectedCard = 0;
-            if(Gdx.input.getX() > 1100){
+            if(Gdx.input.getX() > 1432){
                 selectedCard = 7;
             }
             selectedCard += MathUtils.floor((1000 -  Gdx.input.getY())/140);
@@ -191,7 +191,7 @@ class Player {
                 }
             }
         }
-        if (Gdx.input.getX() > 1100  && Gdx.input.getX() < 1200 &&
+        if (Gdx.input.getX() > 1432  && Gdx.input.getX() < 1532 &&
                 1000-  Gdx.input.getY() < 980 &&
                 1000-  Gdx.input.getY() > 880){
             if(cardInputs.shutDown){

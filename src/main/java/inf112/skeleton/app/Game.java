@@ -34,7 +34,7 @@ public class Game implements ApplicationListener {
     public boolean isOnline = false;
     public NetworkComponent networkComponent = null;
     public Flag flag = null;
-    public Board board = new Board();
+    public Board board;
 
     float turnTime = 0;
     boolean turnOngoing = false;
@@ -43,7 +43,7 @@ public class Game implements ApplicationListener {
 
         isOnline = isOnline_;
         long seed = System.currentTimeMillis();
-        int nrOfPlayers = 2;
+        int nrOfPlayers = 1;
         if(isOnline){
             if(IP == null){
                 int port = Port;
@@ -72,17 +72,14 @@ public class Game implements ApplicationListener {
         shapeRenderer = new ShapeRenderer();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
+        board = new Board(gameBoard);
         flag = new Flag(5,5);
         flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
-        playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
-        playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
-        if(nrOfPlayers > 2){
-            playerList.add(new Player(new Robot(0,11, new Sprite(new Texture("src/assets/robot1.png")))));
+        for(int i = 0;i < board.spawns.size(); i++){
+            if(i <= nrOfPlayers){
+                playerList.add(new Player(new Robot(board.spawns.get(i).x,board.spawns.get(i).y, new Sprite(new Texture("src/assets/robot1.png")))));
+            }
         }
-        if(nrOfPlayers > 3){
-            playerList.add(new Player(new Robot(11,0, new Sprite(new Texture("src/assets/robot1.png")))));
-        }
-
         CreateCardLibrary();
         cards = cardLibrary;
 
