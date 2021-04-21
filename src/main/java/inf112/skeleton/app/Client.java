@@ -126,7 +126,7 @@ class Client extends NetworkComponent {
         if(s.equals("v")){ // got confirmation to send inputs
             sendInputs(inputs,socket);
             String numberOfPlayers = receiveString(socket);// get the number of player inputs that will be sent
-            if(numberOfPlayers.equals("v")){ // if you recieve a ping afterwards
+            while(numberOfPlayers.equals("v")){ // if you recieve a ping afterwards
                 numberOfPlayers = receiveString(socket);
             }
             for(int i = 0; i < Integer.parseInt(numberOfPlayers); i++){
