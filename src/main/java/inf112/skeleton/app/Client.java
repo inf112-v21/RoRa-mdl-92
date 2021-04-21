@@ -88,8 +88,11 @@ class Client extends NetworkComponent {
         try{
             socket = new Socket(ip,port);
             playerNr = Integer.parseInt(receiveString(socket));
+            sendString("v",socket);
             seed = Long.valueOf(receiveString(socket));
+            sendString("v",socket);
             nrOfPlayers = Integer.valueOf(receiveString(socket));
+            sendString("v",socket);
         }
         catch(IOException i){
             System.out.print(i);
@@ -129,8 +132,10 @@ class Client extends NetworkComponent {
             while(numberOfPlayers.equals("v")){ // if you recieve a ping afterwards
                 numberOfPlayers = receiveString(socket);
             }
+            sendString("v",socket);
             for(int i = 0; i < Integer.parseInt(numberOfPlayers); i++){
                 pInputs.add(receiveInputs(socket));//get inputs from players
+                sendString("v",socket);
             }
         }
         return pInputs;
@@ -153,20 +158,11 @@ class Host extends NetworkComponent{
                 sockets.add(server.accept());
                 System.out.println("CONNECTED player: " + Integer.toString(i+1));
                 sendString(String.valueOf(sockets.size()),sockets.get(sockets.size()-1)); // send player number
-                try{
-                    TimeUnit.MILLISECONDS.sleep(100);
-                }
-                catch (InterruptedException s){
-
-                }
+                receiveString(sockets.get(sockets.size()-1));
                 sendString(String.valueOf(seed), sockets.get(sockets.size()-1)); // send seed
-                try{
-                    TimeUnit.MILLISECONDS.sleep(100);
-                }
-                catch (InterruptedException s){
-
-                }
+                receiveString(sockets.get(sockets.size()-1));
                 sendString(String.valueOf(nrOfPlayers), sockets.get(sockets.size()-1)); // send number of players
+                receiveString(sockets.get(sockets.size()-1));
             }
 
         }
@@ -199,20 +195,16 @@ class Host extends NetworkComponent{
            playerToCheck++;
         }
         for(int i = 0; i < sockets.size();i++){ // sending all inputs back to each player
-            try {
                 sendString(Integer.toString(pInputs.size()),sockets.get(i));
-                TimeUnit.MILLISECONDS.sleep(30);
+                receiveString(sockets.get(i));
                 sendInputs(inputs,sockets.get(i)); // send host inputs
-                TimeUnit.MILLISECONDS.sleep(30);
+                receiveString(sockets.get(i));
                 for(int j = 0; j < pInputs.size(); j++){
                     if(i != j){ // not to send the inputs back to its owner
                         sendInputs(pInputs.get(j),sockets.get(i));
-                        TimeUnit.MILLISECONDS.sleep(30);
+                        receiveString(sockets.get(i));
                     }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         return pInputs;

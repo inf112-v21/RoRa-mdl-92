@@ -41,6 +41,7 @@ public class MenuScreen implements Screen {
     private RoboRallyGame game;
 
 
+
     //Screen parameters
     private final int SCREEN_WIDTH = 1532;
     private final int SCREEN_HEIGHT = 1000;

@@ -34,6 +34,8 @@ public class Game implements ApplicationListener {
     public boolean isOnline = false;
     public NetworkComponent networkComponent = null;
     public Board board;
+    public boolean gameOver = false;
+
 
     float turnTime = 0;
     boolean turnOngoing = false;
@@ -75,8 +77,6 @@ public class Game implements ApplicationListener {
         // TEMPORARY - Hardcoded flag locations
         board.flags.add(new Flag(3, 3));
         board.flags.get(0).texture = Flag.texNext;
-        board.flags.add(new Flag(1, 3));
-        board.flags.add(new Flag(7, 6));
 
 
         for(int i = 0;i < board.spawns.size(); i++){
@@ -204,7 +204,8 @@ public class Game implements ApplicationListener {
                 @Override
                 public void run() {
                     if(CheckFlags() != null){
-                        com.badlogic.gdx.utils.Timer.instance().stop();
+                        gameOver = true;
+                        com.badlogic.gdx.utils.Timer.instance().clear();
                     }
                 }
             }, turnTime);
@@ -336,6 +337,10 @@ public class Game implements ApplicationListener {
         batch.begin();
         playerList.get(currentUser).drawHand(batch,font, shapeRenderer);
         for(int i = 0;i < playerList.size();i++) {
+            font.setColor(Color.GOLDENROD);
+            if(i == currentUser){
+                font.setColor(Color.GREEN);
+            }
             playerList.get(i).playerRobot.draw(batch, font, i + 1);
         }
         for (int i = 0; i < board.flags.size(); i++) {
@@ -402,7 +407,9 @@ public class Game implements ApplicationListener {
             if(turnOngoing){
                 return false;
             }
-            playerList.get(currentUser).touchUp();
+            if(playerList.get(currentUser).touchUp()){
+                DoTurn();
+            }
             return true;
         }
 

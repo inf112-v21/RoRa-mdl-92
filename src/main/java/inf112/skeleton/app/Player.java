@@ -122,10 +122,20 @@ class Player {
         else{
             shapeRenderer.rect(1432, 880, 100, 100, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
         }
+        if((Gdx.input.getX() > 1432  && Gdx.input.getX() < 1532 &&
+                1000-  Gdx.input.getY() < 670 &&
+                1000-  Gdx.input.getY() > 570)){
+            shapeRenderer.rect(1432, 570, 100, 100, Color.GOLD, Color.GOLD, Color.GOLD, Color.GOLD);
+        }
+        else{
+            shapeRenderer.rect(1432, 570, 100, 100, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK);
+        }
+
         shapeRenderer.end();
         s.begin();
         font.setColor(Color.BLACK);
         font.draw(s,"Shut Down",1442,950);
+        font.draw(s,"PLAY TURN",1442,640);
         if(cardInputs.shutDown){
             font.setColor(Color.GREEN);
             font.getData().setScale(1.5f);
@@ -203,6 +213,8 @@ class Player {
                 cardInputs.shutDown = true;
             }
         }
-        return true;
+        return (Gdx.input.getX() > 1432  && Gdx.input.getX() < 1532 &&
+                1000-  Gdx.input.getY() < 670 &&
+                1000-  Gdx.input.getY() > 570);
     }
 }

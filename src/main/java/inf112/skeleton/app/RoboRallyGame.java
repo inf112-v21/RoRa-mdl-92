@@ -24,6 +24,11 @@ public class RoboRallyGame extends Game {
         super.render();
         if(game != null){
             game.render();
+            if(game.gameOver){
+                menuScreen = new MenuScreen(this);
+                setScreen(menuScreen);
+                game = null;
+            }
         }
     }
 
