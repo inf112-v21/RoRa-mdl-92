@@ -1,5 +1,6 @@
 package inf112.skeleton.app;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,6 +13,7 @@ public class Board {
     Collection<CogWheel> cogWheels;
     Collection<Hole> hole;
     Collection<LaserShooter> lasers;
+    public ArrayList<Flag> flags;
     public ArrayList<Coordinate> spawns;
     int maxX = 15;
     int maxY = 11;
@@ -28,6 +30,7 @@ public class Board {
         hole = new ArrayList<Hole>();
         lasers = new ArrayList<>();
         spawns = new ArrayList<Coordinate>();
+        flags = new ArrayList<>();
 
 
         for(Coordinate c : tileMap.getMapObjectLocations("WallRight")){

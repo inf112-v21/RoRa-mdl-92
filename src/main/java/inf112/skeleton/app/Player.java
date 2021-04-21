@@ -21,6 +21,7 @@ class Player {
     public ArrayList<Card> lockedCards = new ArrayList<Card>();
     public Robot playerRobot;
     public playerInputs cardInputs;
+    public int currentFlag = 0;
 
 
     // Returns the card set for a phase of the game. (whether chosen or locked in place due to damage)
