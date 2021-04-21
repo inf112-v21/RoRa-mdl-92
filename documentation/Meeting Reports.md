@@ -155,7 +155,7 @@ devided up some of those tasks that we should work on for next week
 
 
 
-07/04/2021 Time (12:15 - 13:20)
+14/04/2021 Time (12:15 - 13:20)
 catched up on what everyone have gotten done the last week
 
 finalized the last tasks that needed to get done for the final assignment 
@@ -167,3 +167,15 @@ finalized the last tasks that needed to get done for the final assignment
 devided up those remaining tasks between us
 
 ola was not present at this meeting
+
+
+
+
+21/04/2021 Time (12:15 - 14:20)
+catched up on what everyone have gotten done the last week
+
+found some finalizing touches we wanted to get done and some bugs in the online
+
+started writing on the last obligatory assignment
+
+
