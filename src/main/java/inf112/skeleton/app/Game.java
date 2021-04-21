@@ -122,6 +122,7 @@ public class Game implements ApplicationListener {
         }
     }
 
+    //Executes the turn with short delay to show the different happenings in a single turn (card/board elements etc)
     public void DoTurn() {
         turnTime = 0;
         turnOngoing = true;
@@ -259,6 +260,7 @@ public class Game implements ApplicationListener {
         }
     }
 
+    //deals cards, shuffles cards
     public Card DealCard(){
         Card out;
         if(cards.size() == 1){
@@ -275,8 +277,6 @@ public class Game implements ApplicationListener {
         }
         return out;
     }
-
-
 
     // overrides from application listener
     @Override

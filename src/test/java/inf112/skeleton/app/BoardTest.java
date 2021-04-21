@@ -157,4 +157,5 @@ public class BoardTest {
         assertTrue(testSubject.Health == 9);
         assertTrue(otherRobot.Health == 10);
     }
+
 }

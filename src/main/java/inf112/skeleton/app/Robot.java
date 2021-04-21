@@ -38,6 +38,7 @@ public class Robot {
         sprite = s;
     }
 
+    //draws robot on board
     public void draw(SpriteBatch s, BitmapFont font, int playerNr){
         int rotation = 0;
         if(d == Direction.RIGHT){
@@ -54,6 +55,7 @@ public class Robot {
         font.draw(s,"Player "+Integer.toString(playerNr),83*posX+3,83*posY+83);
     }
 
+    //Deals x amount of damage and respawns robot if health is 0 or less
     public void takeDamage(int damage){
         Health -= damage;
         if(Health <= 0){
@@ -63,6 +65,7 @@ public class Robot {
         }
     }
 
+    //robot respawns in default position with full health
     public void respawn(List<Player> players){
         boolean overlap = false;
         for(Player player : players){
@@ -86,6 +89,7 @@ public class Robot {
         timeOut = false;
     }
 
+    //robot moves forward
     public void moveForward(Board board){
         if (board.CanGo(d, new Coordinate(posX, posY))) {
             switch (d) {
@@ -107,6 +111,7 @@ public class Robot {
         }
     }
 
+    //robot turns right
     public void turnRight(){
         if(d == Direction.UP){
             d = Direction.RIGHT;
@@ -122,6 +127,7 @@ public class Robot {
         }
     }
 
+    //robot turns left
     public void turnLeft(){
         if(d == Direction.UP){
             d = Direction.LEFT;
@@ -137,6 +143,7 @@ public class Robot {
         }
     }
 
+    //robot moves backwards
     public void moveBackwards(Board board){
         Direction reverse = d;
         switch (d){

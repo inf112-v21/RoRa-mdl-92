@@ -7,7 +7,7 @@ import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
-
+//creates cards that can be manually chosen and executed in wanted order
 abstract class Card {
     public int priority = 0;
     int cardSprite = 0;
@@ -32,6 +32,7 @@ abstract class Card {
     abstract  void DoAction(Robot me, Board board);
 }
 
+//card that moves 1 step forward
 class Move1Card extends Card{
 
     public Move1Card(int _priority){
@@ -42,7 +43,7 @@ class Move1Card extends Card{
             me.moveForward(board);
     }
 }
-
+//card that moves 2 steps forward
 class Move2Card extends Card{
     public Move2Card(int _priority){
         cardSprite = 1;
@@ -54,6 +55,7 @@ class Move2Card extends Card{
         me.moveForward(board);
     }
 }
+//card that moves 3 steps forward
 class Move3Card extends Card{
     public Move3Card(int _priority){
         priority = _priority;
@@ -66,7 +68,7 @@ class Move3Card extends Card{
         me.moveForward(board);
     }
 }
-
+//card that moves 1 step backwards
 class MoveBackCard extends Card{
     public MoveBackCard(int _priority){
         priority = _priority;
@@ -77,7 +79,7 @@ class MoveBackCard extends Card{
             me.moveBackwards(board);
     }
 }
-
+//card that turns right
 class TurnRightCard extends Card{
     public TurnRightCard(int _priority){
         priority = _priority;
@@ -88,6 +90,7 @@ class TurnRightCard extends Card{
         me.turnRight();
     }
 }
+//card that turns left
 class TurnLeftCard extends Card{
     public TurnLeftCard(int _priority){
         priority = _priority;
@@ -98,6 +101,7 @@ class TurnLeftCard extends Card{
         me.turnLeft();
     }
 }
+//card that makes a U-turn
 class UTurnCard extends Card{
     public UTurnCard(int _priority){
         priority = _priority;

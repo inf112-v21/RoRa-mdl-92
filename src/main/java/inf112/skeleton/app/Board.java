@@ -238,7 +238,6 @@ public class Board {
         }
     }
 
-    //foreløpig usikkert om denne skjønner hvilken type hjul som skal snurre
     //makes robots rotate 90 degrees left/right (depending on cogwheel type)
     public void WheelRotate(){
         for(Robot r: robots ){
@@ -250,7 +249,7 @@ public class Board {
         }
     }
 
-    //makes robots fall and die (takes 10 damage and respawns) when walking on a hole
+    //makes robots fall and die (takes 10 damage and respawns) when walking on a hole or exits map
     public void HoleFall(){
         for(Robot r: robots){
             if(r.posX < minX || r.posX > maxX || r.posY < minY || r.posY > maxY){ // robot falls in hole if they exit map
@@ -315,7 +314,7 @@ public class Board {
             }
         }
     }
-
+    //fires lasers and deals damage to robots
     public void FireLasers(){
         for(Robot r: robots){
             LaserCheck(r.d, new Coordinate(r.posX, r.posY), 1);
@@ -397,6 +396,7 @@ class Coordinate{
     }
 }
 
+//board element "wall", stops robots from moving in certain directions
 class Wall{
     Coordinate pos;
 

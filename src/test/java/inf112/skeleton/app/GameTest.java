@@ -7,13 +7,6 @@ import org.junit.Test;
 public class GameTest {
 
     @Test
-    public void ShouldDoTurn() {
-        Game game = new Game(false,0,0,null);
-        game.DoTurn();
-        assertEquals(1, game.turn);
-    }
-
-    @Test
     public void HoleShouldKill(){
         Robot robot = new Robot(0, 2,null);
         Hole hole = new Hole(0,2);
