@@ -11,11 +11,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
+import java.util.ArrayList;
 
 
 /**
@@ -34,15 +37,14 @@ public class TileMap{
     OrthogonalTiledMapRenderer renderer;
 
     public TileMap() {
-        resize(1200,1000);
+        resize(1532,1000);
         // Map loading
-        map = new TmxMapLoader().load(String.valueOf(Gdx.files.internal("src/assets/Tilemap/layeredmap.tmx")));
+        map = new TmxMapLoader().load(String.valueOf(Gdx.files.internal("src/assets/Tilemap/roboMapV2.tmx")));
 
         // Instantiation of the map renderer
         renderer = new OrthogonalTiledMapRenderer(map);
 
         // Actor
-
 
         // Reading map layers (not used)
         MapLayers mapLayers = map.getLayers();
@@ -66,6 +68,7 @@ public class TileMap{
                 mapLayers.getIndex("Holes"),
                 mapLayers.getIndex("Spawn"),
         };
+
 
     }
 
@@ -112,5 +115,21 @@ public class TileMap{
 
     public void handleInput(){
 
+    }
+
+    public ArrayList<Coordinate> getMapObjectLocations(String obj){
+        ArrayList<Coordinate> mapPositions = new ArrayList<Coordinate>();
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(obj);
+        if(layer == null){
+            return mapPositions;
+        }
+        for(int i = 0; i < layer.getWidth();i++){
+            for(int j = 0; j < layer.getHeight();j++){
+                if(layer.getCell(i,j) != null){
+                    mapPositions.add(new Coordinate(i,j));
+                }
+            }
+        }
+        return mapPositions;
     }
 }

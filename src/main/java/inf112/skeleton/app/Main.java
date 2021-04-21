@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setTitle("Robo Rally");
-        cfg.setWindowedMode(1200, 1000);
+        cfg.setWindowedMode(1532, 1000);
 
         //new Lwjgl3Application(new Game(), cfg);
 

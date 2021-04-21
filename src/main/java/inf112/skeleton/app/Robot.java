@@ -25,7 +25,7 @@ public class Robot {
     public boolean isPowered = true;
     public boolean timeOut = false;
 
-    public Direction d = Direction.LEFT;
+    public Direction d = Direction.RIGHT;
 
     public Robot(int x, int y, Sprite s){
         posX = x;

@@ -6,6 +6,8 @@ import org.junit.Test;
 
 public class GameTest {
 
+
+
     @Test
     public void HoleShouldKill(){
         Robot robot = new Robot(0, 2,null);

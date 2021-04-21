@@ -33,8 +33,7 @@ public class Game implements ApplicationListener {
     public int currentUser = 0; // the player that the applications user controls
     public boolean isOnline = false;
     public NetworkComponent networkComponent = null;
-    public Flag flag = null;
-    public Board board = new Board();
+    public Board board;
 
     float turnTime = 0;
     boolean turnOngoing = false;
@@ -43,7 +42,7 @@ public class Game implements ApplicationListener {
 
         isOnline = isOnline_;
         long seed = System.currentTimeMillis();
-        int nrOfPlayers = 2;
+        int nrOfPlayers = 1;
         if(isOnline){
             if(IP == null){
                 int port = Port;
@@ -72,15 +71,19 @@ public class Game implements ApplicationListener {
         shapeRenderer = new ShapeRenderer();
         InputReader inputReader = new InputReader();
         gameBoard = new TileMap();
-        flag = new Flag(5,5);
-        flag.texture =  new Texture(Gdx.files.internal("src/assets/FlagTiltSolid_0.png"));
-        playerList.add(new Player(new Robot(0,0, new Sprite(new Texture("src/assets/robot1.png")))));
-        playerList.add(new Player(new Robot(11,11, new Sprite(new Texture("src/assets/robot1.png")))));
-        if(nrOfPlayers > 2){
-            playerList.add(new Player(new Robot(0,11, new Sprite(new Texture("src/assets/robot1.png")))));
-        }
-        if(nrOfPlayers > 3){
-            playerList.add(new Player(new Robot(11,0, new Sprite(new Texture("src/assets/robot1.png")))));
+        board = new Board(gameBoard);
+
+        // TEMPORARY - Hardcoded flag locations
+        board.flags.add(new Flag(3, 3));
+        board.flags.get(0).texture = Flag.texNext;
+        board.flags.add(new Flag(1, 3));
+        board.flags.add(new Flag(7, 6));
+
+
+        for(int i = 0;i < board.spawns.size(); i++){
+            if(i <= nrOfPlayers){
+                playerList.add(new Player(new Robot(board.spawns.get(i).x,board.spawns.get(i).y, new Sprite(new Texture("src/assets/robot1.png")))));
+            }
         }
 
         CreateCardLibrary();
@@ -93,6 +96,7 @@ public class Game implements ApplicationListener {
                 p.hand.add(DealCard());
             }
         }
+        CheckFlags();
 
         Gdx.input.setInputProcessor(inputReader);
 
@@ -122,7 +126,11 @@ public class Game implements ApplicationListener {
         }
     }
 
-    //Executes the turn with short delay to show the different happenings in a single turn (card/board elements etc)
+    /*  This function handles the processing of a turn.
+        Primarily adds functions to a queue using com.badlogic.gdx.utils.Timer, which are completed later.
+        When initiated turnOngoing is set to true and turn increases by 1.
+        When the last task in the queue is done, turnOngoing is set to false.
+     */
     public void DoTurn() {
         turnTime = 0;
         turnOngoing = true;
@@ -145,6 +153,7 @@ public class Game implements ApplicationListener {
             }
         }
 
+        // The 5 rounds of turns, first inputs, then board elements, then checking for victory
         for(int i = 0; i < 5; i++){
             HandleProgram(i);
             turnTime += .05f;
@@ -192,14 +201,18 @@ public class Game implements ApplicationListener {
             turnTime += .05f;
         }
 
-        //checks if a robot is on the flag
-        for(int i = 0; i < playerList.size(); i++){
-            if(playerList.get(i).playerRobot.posY == flag.posY && playerList.get(i).playerRobot.posX == flag.posX){
-                System.out.println("Player " +String.valueOf(i+1) + " WINS!");
-            }
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    if(CheckFlags() != null){
+                        com.badlogic.gdx.utils.Timer.instance().stop();
+                    }
+                }
+            }, turnTime);
+            turnTime += .01f;
         }
 
-
+        // Turn cleanup: card locking and respawns, clearing hand, resolving shutdowns, and then dealing new cards.
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
             public void run() {
@@ -231,6 +244,7 @@ public class Game implements ApplicationListener {
         }, turnTime);
     }
 
+    // Compares each players input for a given round, and schedules them on the timer in decreasing order of priority.
     public void HandleProgram(int _phase){
         List<Player> actionOrder = new ArrayList<Player>();
         actionOrder.addAll(playerList); // adds the players to the list
@@ -260,7 +274,7 @@ public class Game implements ApplicationListener {
         }
     }
 
-    //deals cards, shuffles cards
+    // Pop a random card from the  main deck, if the deck is empty, the discard deck is shuffled into the main deck.
     public Card DealCard(){
         Card out;
         if(cards.size() == 1){
@@ -276,6 +290,30 @@ public class Game implements ApplicationListener {
             cards.remove(i);
         }
         return out;
+    }
+
+    // Checks if any robots are on a flag, if a player has won, will return player. Else returns null.
+    public Player CheckFlags(){
+        for (Player p: playerList){
+            if(board.flags.get(p.currentFlag).IsAt(new Coordinate(p.playerRobot.posX, p.playerRobot.posY))){
+                if(p == playerList.get(currentUser)){
+                    board.flags.get(p.currentFlag).texture = Flag.texReached;
+                }
+
+                p.playerRobot.respawnPosX = board.flags.get(p.currentFlag).posX;
+                p.playerRobot.respawnPosY = board.flags.get(p.currentFlag).posY;
+
+                p.currentFlag++;
+                if (p.currentFlag == board.flags.size()) {
+                    return p;
+                }
+                if(p == playerList.get(currentUser)){
+                    board.flags.get(p.currentFlag).texture = Flag.texNext;
+                }
+            }
+
+        }
+        return null;
     }
 
     // overrides from application listener
@@ -301,7 +339,11 @@ public class Game implements ApplicationListener {
         for(int i = 0;i < playerList.size();i++) {
             playerList.get(i).playerRobot.draw(batch, font, i + 1);
         }
-        batch.draw(flag.texture,flag.posX*83,flag.posY*83);
+        for (int i = 0; i < board.flags.size(); i++) {
+            Flag f = board.flags.get(i);
+            batch.draw(f.texture,f.posX*83,f.posY*83);
+            font.draw(batch, Integer.toString(i+1), f.posX*83+41, f.posY*83+59);
+        }
         batch.end();
     }
 
@@ -379,5 +421,6 @@ public class Game implements ApplicationListener {
         public boolean scrolled(int i) {
             return false;
         }
+
     }
 }
