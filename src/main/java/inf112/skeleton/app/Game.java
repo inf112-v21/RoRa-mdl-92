@@ -51,7 +51,6 @@ public class Game implements ApplicationListener {
                     nrOfPlayers = 3;
                 }
                 networkComponent = new Host(port, seed, nrOfPlayers);
-                nrOfPlayers++;
             }
             else {
                 String ip = IP;
@@ -60,7 +59,7 @@ public class Game implements ApplicationListener {
                 Client c = (Client)networkComponent;
                 currentUser = c.getPlayerNr();
                 seed = c.getSeed();
-                nrOfPlayers = c.getNrOfPlayers() +1;
+                nrOfPlayers = c.getNrOfPlayers();
             }
         }
         System.out.println(seed);
