@@ -199,7 +199,7 @@ public class Game implements ApplicationListener {
                 }
             }, turnTime);
             turnTime += .05f;
-        }
+
 
             com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
                 @Override
