@@ -74,8 +74,50 @@ public class Game implements ApplicationListener {
         gameBoard = new TileMap();
         board = new Board(gameBoard);
 
-        // TEMPORARY - Hardcoded flag locations
-        board.flags.add(new Flag(3, 3));
+        // Random Flag Placement
+        for (int i = 0; i < 5; i++){
+            int curX = rand.nextInt(board.maxX-board.minX)+board.minX;
+            int curY = rand.nextInt(board.maxY-board.minY)+board.minY;
+            boolean validFlag = true;
+
+            for(Hole h: board.hole){
+                if(h.X == curX && h.Y==curY){
+                    validFlag = false;
+                }
+            }
+
+            Coordinate curXY = new Coordinate(curX, curY);
+            for(ConveyorBelt belt: board.belts){
+                if(belt.pos.equals(curXY)){
+                    validFlag = false;
+                    for(ConveyorBelt beltFrom: board.belts){
+                        if(beltFrom.pos.Step(beltFrom.dir).equals(curXY)){
+                            validFlag = true;
+                        }
+                    }
+                }
+            }
+            for(ConveyorBelt belt: board.express){
+                if(belt.pos.equals(curXY)){
+                    validFlag = false;
+                    for(ConveyorBelt beltFrom1: board.express){
+                        if(beltFrom1.pos.Step(beltFrom1.dir).equals(curXY)){
+                            for(ConveyorBelt beltFrom2: board.express){
+                                if(beltFrom2.pos.Step(beltFrom2.dir).equals(beltFrom1.pos)){
+                                validFlag = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(validFlag) {
+                board.flags.add(new Flag(curX, curY));
+            }else{
+                i--;
+            }
+        }
         board.flags.get(0).texture = Flag.texNext;
 
 
