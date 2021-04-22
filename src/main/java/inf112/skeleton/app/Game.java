@@ -275,6 +275,8 @@ public class Game implements ApplicationListener {
 
                 for(Player p : playerList){
                     if(p.cardInputs.shutDown){
+                        discard.addAll(p.lockedCards);
+                        p.lockedCards.clear();
                         p.playerRobot.Health = 10;
                     }
                     for(int i = 1; i < p.playerRobot.Health; i++){
