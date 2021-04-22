@@ -1,7 +1,6 @@
 package inf112.skeleton.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import org.w3c.dom.Text;
 
 public class Flag {
     public Texture texture;

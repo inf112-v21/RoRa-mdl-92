@@ -70,12 +70,6 @@ class Player {
         }
     }
 
-    /*
-    public void playCard(){
-        hand.get(cardInputs.inputs.get(0)).DoAction(playerRobot);
-        cardInputs.inputs.remove(0);
-    }
-    */
 
     public boolean canPlayCard(){
         return cardInputs.inputs.size() != 0;
@@ -171,16 +165,6 @@ class Player {
         }
     }
 
-    public void doAiTurn(Random rand){
-        /*
-        ArrayList<Integer> intList = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4,5,6,7,8));
-        while(cardInputs.inputs.size() < 5){
-            int r = rand.nextInt(intList.size());
-            cardInputs.inputs.add(intList.get(r));
-            intList.remove(r);
-        }
-        */
-    }
 
     public boolean touchUp() {
         if(Gdx.input.getX() > 1332  && Gdx.input.getX() < 1532 && Gdx.input.getY() > 20){

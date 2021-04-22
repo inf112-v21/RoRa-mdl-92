@@ -3,10 +3,6 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.ApplicationListener;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.sun.source.tree.BinaryTree;
 
 
 public class Game implements ApplicationListener {
@@ -35,6 +30,7 @@ public class Game implements ApplicationListener {
     public NetworkComponent networkComponent = null;
     public Board board;
     public boolean gameOver = false;
+    public boolean waitingForPlayers = false;
 
 
     float turnTime = 0;
@@ -178,18 +174,13 @@ public class Game implements ApplicationListener {
         turn += 1;
         if(isOnline){
             //get inputs from other players
+            waitingForPlayers = true;
             ArrayList<playerInputs> otherPlayerInputs = networkComponent.communicateToPlayers(playerList.get(currentUser).cardInputs);
+            waitingForPlayers = false;
             for(int i = 0; i < playerList.size(); i++){ // set inputs to respective players
                 if(i != currentUser){
                     playerList.get(i).cardInputs = otherPlayerInputs.get(0);
                     otherPlayerInputs.remove(0);
-                }
-            }
-        }
-        else { // if you only play with IA
-            for(int i = 0; i < playerList.size(); i++){
-                if(i != currentUser){
-                    playerList.get(i).doAiTurn(rand);
                 }
             }
         }
@@ -392,6 +383,11 @@ public class Game implements ApplicationListener {
             batch.draw(f.texture,f.posX*83,f.posY*83);
             font.draw(batch, Integer.toString(i+1), f.posX*83+41, f.posY*83+59);
         }
+        font.setColor(Color.GREEN);
+        font.getData().setScale(3);
+        if(waitingForPlayers){
+            font.draw(batch, "Waiting For Other Players", 400, 400);
+        }
         batch.end();
     }
 
@@ -410,6 +406,12 @@ public class Game implements ApplicationListener {
 
     // a class to read inputs from the application user
     class InputReader implements InputProcessor{
+        class DoTurnThread extends Thread{
+            @Override
+            public void run(){
+                DoTurn();
+            }
+        }
 
         @Override
         public boolean keyDown(int i) {
@@ -417,17 +419,9 @@ public class Game implements ApplicationListener {
                 return false;
             }
             if(i == 44){
-                DoTurn();
+                DoTurnThread t = new DoTurnThread();
+                t.start();
             }
-            //checking if robot is on flag, this shouldn't be here
-//        for(int z = 0; z < Board.allFlags.length; z++){
-//            if ((playerRobot.posX == Board.allFlags[z].posX) && (playerRobot.posY == Board.allFlags[z].posY)){
-//                Board.allFlags[z].visitedP1 = true;
-//            }
-//        }
-//        if (Board.allFlags[0].visitedP1 && Board.allFlags[1].visitedP1 && Board.allFlags[2].visitedP1){
-//            System.out.println("Yay, You Won");
-//        }
             return true;
         }
 
@@ -452,7 +446,9 @@ public class Game implements ApplicationListener {
                 return false;
             }
             if(playerList.get(currentUser).touchUp()){
-                DoTurn();
+
+                DoTurnThread t = new DoTurnThread();
+                t.start();
             }
             return true;
         }

@@ -1,6 +1,6 @@
 package inf112.skeleton.app;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -144,43 +144,6 @@ public class Board {
         return true;
     }
 
-    //A function to check if a laser collides with anything.
-    public boolean LaserCheck(Direction dir, Coordinate pos, int str){
-        if(pos.x < minX || pos.y < minY || pos.x > maxX || pos.y > maxY){
-            return false;
-        }
-        //Checks if the current space has a blocking wall.
-        for(Wall w: walls){
-            if(w.pos.equals(pos)){
-                if(w.CollideExit(dir)){
-                    return false;
-                }
-            }
-        }
-
-        //generate the destination tile coordinate
-        Coordinate next = pos.Step(dir);
-
-        //Checks if the target space has a blocking wall.
-        for(Wall w: walls){
-            if(w.pos.equals(next)){
-                if(w.CollideEnter(dir)){
-                    return false;
-                }
-            }
-        }
-
-        //Checks if the target space has a robot.
-        for(Robot r: robots){
-            if((r.posX == next.x)&&(r.posY == next.y)){
-                r.takeDamage(str);
-                return false;
-            }
-        }
-
-        return LaserCheck(dir, pos.Step(dir), str);
-    }
-
     //Does a regular Conveyor Belt movement for all robots
     public void BeltMove(){
         for(Robot r: robots){
@@ -285,24 +248,6 @@ public class Board {
         }
     }
 
-    /*public void FireLasers(){
-        for(Robot r: robots){
-            LaserCheck(r.d, new Coordinate(r.posX, r.posY), 1);
-        }
-        for(LaserShooter l: lasers){
-            Robot target = null;
-            for(Robot r: robots){
-                if (r.posX == l.pos.x && r.posY == l.pos.y){
-                    target = r;
-                }
-            }
-            if(target != null){
-                target.takeDamage(l.str);
-            }else{
-                LaserCheck(l.dir, l.pos, l.str);
-            }
-        }
-    }*/
 
     public void FireLasers(){
         for(Robot r: robots){

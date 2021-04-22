@@ -1,13 +1,11 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Robot {
