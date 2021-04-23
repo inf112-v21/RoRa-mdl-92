@@ -22,9 +22,6 @@ Hvis vi skulle ha startet dette prosjektet en gang til, hadde vi for det første
  
 ### DELOPPGAVE 2: KRAV
 
-Siden forrige gang har vi fått implementert lasere, conveyor belts osv.
-Vi har laget en meny. Man kan nå spille med flere enn to spillere.
-
 *Krav vi har prioritert:*
 
 - Fikse bugs med Online component
