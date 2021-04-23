@@ -11,8 +11,7 @@ public class BoardTest {
 
     @Before
     public void Setup(){
-        TileMap t = new TileMap();
-        board = new Board(t);
+        board = new Board(null);
         testSubject = new Robot(0,0, null);
         board.robots.add(testSubject);
 
@@ -151,12 +150,12 @@ public class BoardTest {
         otherRobot.posX = 1;
         otherRobot.posY = 0;
 
-        board.lasers.add(new LaserShooter(Direction.RIGHT, new Coordinate(-1, 0), 1));
+        board.lasers.add(new LaserShooter(Direction.RIGHT, new Coordinate(1, 0), 1));
 
         board.FireLasers();
 
-        assertTrue(testSubject.Health == 9);
-        assertTrue(otherRobot.Health == 10);
+        assertTrue(testSubject.Health == 10);
+        assertTrue(otherRobot.Health == 9);
     }
 
 }

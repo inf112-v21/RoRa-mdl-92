@@ -32,6 +32,7 @@ public class Board {
         spawns = new ArrayList<Coordinate>();
         flags = new ArrayList<>();
 
+        if(tileMap == null){return;}
 
         for(Coordinate c : tileMap.getMapObjectLocations("WallRight")){
             walls.add(new Wall(c.x, c.y,false, true, false, false));
