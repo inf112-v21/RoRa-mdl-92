@@ -32,7 +32,6 @@ public class Game implements ApplicationListener {
     public boolean gameOver = false;
     public boolean waitingForPlayers = false;
 
-
     float turnTime = 0;
     boolean turnOngoing = false;
 
@@ -42,7 +41,7 @@ public class Game implements ApplicationListener {
         long seed = System.currentTimeMillis();
         int nrOfPlayers = 1;
         if(isOnline){
-            if(IP == null){
+            if(IP == null){ // if you are a host
                 int port = Port;
                 nrOfPlayers = nrOfPlayers_;
                 if(nrOfPlayers > 3){
@@ -56,11 +55,10 @@ public class Game implements ApplicationListener {
                 networkComponent = new Client(ip,port);
                 Client c = (Client)networkComponent;
                 currentUser = c.getPlayerNr();
-                seed = c.getSeed();
+                seed = c.getSeed(); // gets the seed that will be used for this game
                 nrOfPlayers = c.getNrOfPlayers();
             }
         }
-        System.out.println(seed);
         rand.setSeed(seed);
 
         batch = new SpriteBatch();
@@ -126,7 +124,7 @@ public class Game implements ApplicationListener {
         CreateCardLibrary();
         cards = cardLibrary;
 
-        // add dummy cards to players hand
+
         for(Player p : playerList){
             board.robots.add(p.playerRobot); //Adds the robots to the board for collision tracking.
             for(int i = 0; i < 9; i++){
@@ -406,6 +404,7 @@ public class Game implements ApplicationListener {
 
     // a class to read inputs from the application user
     class InputReader implements InputProcessor{
+        //a thread that runs the turn so that the application doesn't stop responding when waiting for the other players
         class DoTurnThread extends Thread{
             @Override
             public void run(){

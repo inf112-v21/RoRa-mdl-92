@@ -34,6 +34,7 @@ public class Board {
 
         if(tileMap == null){return;}
 
+        // reads in the board elements from the loaded tilemap
         for(Coordinate c : tileMap.getMapObjectLocations("WallRight")){
             walls.add(new Wall(c.x, c.y,false, true, false, false));
         }

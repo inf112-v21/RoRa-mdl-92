@@ -80,7 +80,7 @@ class Player {
         playerRobot = robot;
 
     }
-
+    // draws the hand and buttons for the application user
     public void drawHand(SpriteBatch s,BitmapFont font, ShapeRenderer shapeRenderer){
         int yPos = 0;
         int xPos = 1332;
@@ -165,7 +165,7 @@ class Player {
         }
     }
 
-
+    // does inputhandeling for the application user
     public boolean touchUp() {
         if(Gdx.input.getX() > 1332  && Gdx.input.getX() < 1532 && Gdx.input.getY() > 20){
             int selectedCard = 0;
@@ -197,6 +197,7 @@ class Player {
                 cardInputs.shutDown = true;
             }
         }
+        // returns if the play turn button was pressed
         return (Gdx.input.getX() > 1432  && Gdx.input.getX() < 1532 &&
                 1000-  Gdx.input.getY() < 670 &&
                 1000-  Gdx.input.getY() > 570);
