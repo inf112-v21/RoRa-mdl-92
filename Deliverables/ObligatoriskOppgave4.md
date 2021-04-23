@@ -95,6 +95,7 @@ Resizing av skjermen ødelegger knappe- og brettelement plasseringer.
 * Noen committer mange mindre endringer (spesielt når bugs skulle fikses), mens andre committer bare når de ble helt ferdig med alle oppgavene sine
 
 Manuell test er beskrevet i \RoRa-mdl-92\documentation\Manual Tests\Manual Test - Visible Wall Collision.pdf. 
+
 Det meste av testing er automatisk. Alle boardelements blir automatisk testet at de gjør som de skal. I tillegg testing for robot hp/respawn/posisjon/bevegelse, kort, andre knapper m.m. 
  
 Klassediagram ligger i : \RoRa-mdl-92\documentation\RoboRally Class Diagram.png
