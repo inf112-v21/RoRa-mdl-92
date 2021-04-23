@@ -50,8 +50,37 @@ Når programmet starter blir vinduet med menyen presentert. Fra menyen skal man 
 **Arbeidsoppgaver:**
 
 * Lage ny klasse MenuScreen.java og ta i bruk LibGDX’s Screen klasse for å opprette et meny vindu.
- 
-*(Kravene nå er så spesifikke at det virket unødvendig og skrive brukerhistorier)*
+
+
+
+###### Shut Down:
+
+**Brukerhistorie:**
+
+* Som spiller vil kunne shutte down roboten min for å få tilbake liv.
+
+**Akseptansekriterier:**
+
+* Ha en knapp på skjermen som aktiverer shut down.
+
+**Arbeidsoppgaver:**
+
+* Lage en knapp som du kan trykke på for å shutte down, du kan ikke velge noen kort hvis du velger å shutte down og på slutten av turen din vil roboten din fjerne skade.
+
+###### Flagg:
+
+**Brukerhistorie:**
+
+* Som spiller vil jeg kunne gå på flag for å vinne spillet
+
+**Akseptansekriterier:**
+
+* Ha et nummer av flag på skjermen som robotene må gå på for å vinne spillet, hvis de går på et flag blir spawnpointet deres satt til det flagget
+
+**Arbeidsoppgaver:**
+
+* Lage en flaggklasse som kan plasseres rundt omkring på mappet, flagget skal ha et tall som indikerer i hvilken rekkefølge robotene må besøke flaggene. Robotene må ha en måte å holde rede på hvilken flag de allerede har besøkt. når alle flaggene er besøkt så av en robot så vinner den spilleren.
+
  
 ##### BUGS:
 
