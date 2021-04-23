@@ -33,17 +33,4 @@ public class GameTest {
         assertNotSame(Direction.LEFT, robot.d);
     }
 
-    /*
-    //tests that there are two robots in action when playing single player
-    //maybe delete this test
-    @Test
-    public void TwoRobotsOnMap(){
-        Game game = new Game();
-        Board board = new Board();
-        if(!game.isOnline){
-            assertEquals(board.robots.size(),2);
-        }
-    }
-    */
-
 }
